@@ -1,23 +1,58 @@
 "use client";
 
-import React, { useState } from "react";
-import { Leaf, ShieldCheck, TreePine, Fuel, Calculator, HelpCircle, Zap, Info, ArrowRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { Leaf, ShieldCheck, TreePine, Fuel, Calculator, HelpCircle, Zap, Info, LogIn, User as UserIcon, Ticket, Award } from "lucide-react";
+import { getStoredUser, isAuthenticated } from "@/lib/auth";
+import { apiFetch } from "@/lib/api";
+import { User } from "@/types";
 
 export function CarbonSavingsBadge({ passengerTrips = 14200 }: { passengerTrips?: number }) {
   const [showFormula, setShowFormula] = useState(false);
-  const [personalTrips, setPersonalTrips] = useState(2); // Default 2 trips per day
+  const [personalTrips, setPersonalTrips] = useState(2); // Default 2 trips per day slider
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [myTicketsCount, setMyTicketsCount] = useState<number>(0);
+  const [loadingTickets, setLoadingTickets] = useState(false);
+
+  // Check auth session & load user ticket history
+  useEffect(() => {
+    const authed = isAuthenticated();
+    setIsLoggedIn(authed);
+    if (authed) {
+      const u = getStoredUser();
+      setUser(u);
+
+      // Fetch user's real booked tickets to compute actual carbon savings
+      setLoadingTickets(true);
+      apiFetch<any[]>("/tickets/my-tickets").then((res) => {
+        if (res.success && res.data) {
+          setMyTicketsCount(res.data.length);
+        }
+        setLoadingTickets(false);
+      }).catch(() => setLoadingTickets(false));
+    }
+  }, []);
 
   // Real-world environmental calculations for Indore Metro
-  // Average road vehicle in Indore emits ~160g CO2/km (0.48kg per 3km trip)
-  // Metro EMU train emits ~20g CO2/km per passenger (0.06kg per 3km trip)
-  // Net CO2 saved per trip = 0.42 kg
   const co2PerTrip = 0.42;
   const co2SavedKg = (passengerTrips * co2PerTrip).toFixed(1);
   const treesEquivalent = Math.round(passengerTrips * co2PerTrip / 20); // 1 tree absorbs ~20kg CO2/year
   const petrolSavedLiters = Math.round(passengerTrips * 0.175); // ~0.175L petrol saved per trip
 
   // Personal footprint calculations
-  const personalCo2Saved = (personalTrips * co2PerTrip * 30).toFixed(1); // Monthly personal savings
+  const personalCo2Saved = (personalTrips * co2PerTrip * 30).toFixed(1); // Monthly personal savings slider
+  const userActualCo2Saved = (myTicketsCount * co2PerTrip).toFixed(1);
+
+  // Commuter Badge level based on actual booked tickets
+  const getCommuterTier = (count: number) => {
+    if (count >= 10) return { title: "Gold Eco Commuter", badge: "🥇", color: "bg-amber-100 text-amber-900 border-amber-300" };
+    if (count >= 5) return { title: "Silver Eco Commuter", badge: "🥈", color: "bg-slate-100 text-slate-900 border-slate-300" };
+    if (count >= 1) return { title: "Green Pioneer Commuter", badge: "🌱", color: "bg-emerald-100 text-emerald-900 border-emerald-300" };
+    return { title: "New Metro Commuter", badge: "🚆", color: "bg-slate-100 text-slate-700 border-slate-200" };
+  };
+
+  const tier = getCommuterTier(myTicketsCount);
 
   return (
     <div className="bg-white border border-slate-200 p-6 rounded-3xl space-y-5 shadow-xl relative overflow-hidden flex flex-col justify-between h-full">
@@ -121,34 +156,115 @@ export function CarbonSavingsBadge({ passengerTrips = 14200 }: { passengerTrips?
           </div>
         )}
 
-        {/* Personal Carbon Footprint Calculator Widget */}
-        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-black text-slate-800 flex items-center gap-1.5">
-              <Info className="w-3.5 h-3.5 text-amber-600" /> Your Personal Monthly Green Savings
-            </span>
-            <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-200">
-              {personalCo2Saved} kg CO₂ / mo
-            </span>
-          </div>
+        {/* Dynamic Personal Carbon Section (Logged In vs Logged Out) */}
+        {isLoggedIn ? (
+          /* LOGGED IN USER PERSONAL TRACKER CARD */
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-400/40 space-y-3 relative">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center">
+                  {user?.name?.charAt(0) || "U"}
+                </div>
+                <div>
+                  <span className="text-xs font-black text-slate-900 block leading-tight">
+                    {user?.name || "Commuter"}
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-semibold block">Logged In Eco Tracker</span>
+                </div>
+              </div>
 
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs text-slate-600 font-bold">
-              <span>Your Daily Metro Trips:</span>
-              <span className="text-amber-600 font-black">{personalTrips} Trips/Day</span>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-black border flex items-center gap-1 ${tier.color}`}>
+                <span>{tier.badge}</span>
+                <span>{tier.title}</span>
+              </span>
             </div>
-            <input
-              type="range"
-              min="1"
-              max="10"
-              value={personalTrips}
-              onChange={(e) => setPersonalTrips(parseInt(e.target.value))}
-              className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
-            />
+
+            {/* Actual Booked Ticket CO2 Savings */}
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <div className="bg-white p-2.5 rounded-xl border border-slate-200 text-xs space-y-0.5 shadow-sm">
+                <span className="text-[10px] font-bold text-slate-500 uppercase flex items-center gap-1">
+                  <Ticket className="w-3 h-3 text-amber-600" /> Booked Trips
+                </span>
+                <span className="text-base font-black text-slate-900 font-mono block">
+                  {loadingTickets ? "..." : `${myTicketsCount} Tickets`}
+                </span>
+              </div>
+
+              <div className="bg-white p-2.5 rounded-xl border border-slate-200 text-xs space-y-0.5 shadow-sm">
+                <span className="text-[10px] font-bold text-emerald-700 uppercase flex items-center gap-1">
+                  <Leaf className="w-3 h-3 text-emerald-600" /> Your CO₂ Prevented
+                </span>
+                <span className="text-base font-black text-emerald-600 font-mono block">
+                  {loadingTickets ? "..." : `${userActualCo2Saved} kg`}
+                </span>
+              </div>
+            </div>
+
+            {/* Projected trip slider for logged in user */}
+            <div className="pt-2 border-t border-slate-200/80 space-y-1.5">
+              <div className="flex items-center justify-between text-xs text-slate-700 font-bold">
+                <span>Monthly Savings Estimator ({personalTrips} trips/day):</span>
+                <span className="text-emerald-700 font-black font-mono">{personalCo2Saved} kg/mo</span>
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value={personalTrips}
+                onChange={(e) => setPersonalTrips(parseInt(e.target.value))}
+                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          /* LOGGED OUT SIGN-IN PROMPT CARD */
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs">
+            <div className="flex items-start justify-between gap-2">
+              <div className="space-y-1">
+                <span className="font-black text-slate-900 flex items-center gap-1.5">
+                  <UserIcon className="w-4 h-4 text-amber-600" /> Sign In to Track Personal Eco Savings
+                </span>
+                <p className="text-slate-500 font-medium leading-relaxed text-[11px]">
+                  Log in to track your actual ticket carbon savings, unlock Eco Commuter Badges, and see your personal footprint reduction!
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 pt-1">
+              <Link
+                href="/login"
+                className="flex-1 py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-center text-xs shadow-sm transition flex items-center justify-center gap-1.5"
+              >
+                <LogIn className="w-3.5 h-3.5" /> Sign In Now
+              </Link>
+              <Link
+                href="/signup"
+                className="flex-1 py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black text-center text-xs shadow-sm transition"
+              >
+                Register
+              </Link>
+            </div>
+
+            {/* Projected trip slider for guest visitors */}
+            <div className="pt-2 border-t border-slate-200 space-y-1.5">
+              <div className="flex items-center justify-between text-[11px] text-slate-600 font-bold">
+                <span>Guest Savings Estimator ({personalTrips} trips/day):</span>
+                <span className="text-emerald-700 font-black font-mono">{personalCo2Saved} kg CO₂ / mo</span>
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value={personalTrips}
+                onChange={(e) => setPersonalTrips(parseInt(e.target.value))}
+                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
 
