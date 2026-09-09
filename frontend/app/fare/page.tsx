@@ -5,6 +5,7 @@ import { Calculator, Users, CheckCircle2, Ticket } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { Station, FareCalculation } from "@/types";
+import { toast } from "sonner";
 
 export default function FarePage() {
   const router = useRouter();
@@ -18,12 +19,12 @@ export default function FarePage() {
   useEffect(() => {
     async function loadStations() {
       const res = await apiFetch<Station[]>("/stations");
-      if (res.success && res.data) {
+      if (res.success && res.data && res.data.length > 0) {
         setStations(res.data);
-        if (res.data.length >= 2) {
-          setSourceId(res.data[0].id);
-          setDestId(res.data[12]?.id || res.data[1].id);
-        }
+        const first = res.data[0].id;
+        const last = res.data[res.data.length - 1].id;
+        setSourceId(first);
+        setDestId(first !== last ? last : (res.data[1]?.id || first));
       }
     }
     loadStations();
@@ -31,6 +32,17 @@ export default function FarePage() {
 
   const handleCalculate = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!sourceId || !destId) {
+      toast.error("Please select both source and destination stations");
+      return;
+    }
+
+    if (sourceId === destId) {
+      toast.error("From Station and To Station must be different");
+      return;
+    }
+
     setLoading(true);
     setResult(null);
 
@@ -46,6 +58,9 @@ export default function FarePage() {
     setLoading(false);
     if (res.success && res.data) {
       setResult(res.data);
+      toast.success("Fare calculated successfully!");
+    } else {
+      toast.error(res.message || res.error?.message || "Failed to calculate fare");
     }
   };
 

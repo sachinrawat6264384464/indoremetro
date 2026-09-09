@@ -2,16 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Ticket, QrCode, ArrowRight, CheckCircle2, XCircle } from "lucide-react";
+import { Ticket as TicketIcon, ArrowRight } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { isAuthenticated } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { Ticket as TicketType } from "@/types";
+import { TicketCardSkeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 export default function MyTicketsPage() {
   const router = useRouter();
   const [tickets, setTickets] = useState<TicketType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'ALL' | 'CONFIRMED' | 'USED' | 'CANCELLED'>('ALL');
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -30,51 +33,79 @@ export default function MyTicketsPage() {
     fetchTickets();
   }, []);
 
+  const filteredTickets = activeTab === 'ALL' 
+    ? tickets 
+    : tickets.filter((t) => t.status === activeTab);
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-white">My Digital QR Tickets</h1>
-          <p className="text-slate-400 text-sm mt-1">View active passes and booking history</p>
+          <h1 className="text-3xl font-extrabold text-white">My Digital QR Passes</h1>
+          <p className="text-slate-400 text-sm mt-1">Manage your active passes and ticket purchase history</p>
         </div>
         <Link
           href="/book-ticket"
-          className="px-4 py-2.5 rounded-xl metro-gradient-bg text-white font-bold text-sm flex items-center gap-2 shadow-lg"
+          className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm flex items-center gap-2 shadow-lg shadow-amber-500/10 transition"
         >
-          <Ticket className="w-4 h-4" /> Book New Ticket
+          <TicketIcon className="w-4 h-4" /> Book New Ticket
         </Link>
       </div>
 
-      {loading ? (
-        <div className="text-center py-20 text-slate-400">Loading your tickets...</div>
-      ) : tickets.length === 0 ? (
-        <div className="glass-panel p-12 rounded-3xl text-center space-y-4">
-          <QrCode className="w-12 h-12 text-slate-500 mx-auto" />
-          <h3 className="text-xl font-bold text-white">No Tickets Found</h3>
-          <p className="text-sm text-slate-400">You haven&apos;t booked any Indore Metro tickets yet.</p>
-          <Link
-            href="/book-ticket"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl metro-gradient-bg text-white font-bold text-sm"
+      {/* Filter Tabs */}
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto">
+        {(['ALL', 'CONFIRMED', 'USED', 'CANCELLED'] as const).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${
+              activeTab === tab
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
           >
-            Book Your First Ticket
-          </Link>
+            {tab === 'ALL' ? 'All Tickets' : tab === 'CONFIRMED' ? 'Active / Upcoming' : tab === 'USED' ? 'Completed Trips' : 'Cancelled'}
+          </button>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="space-y-4">
+          <TicketCardSkeleton />
+          <TicketCardSkeleton />
+          <TicketCardSkeleton />
         </div>
+      ) : filteredTickets.length === 0 ? (
+        <EmptyState
+          title="No Tickets Found"
+          description={
+            activeTab === 'ALL'
+              ? "You haven't booked any Indore Metro tickets yet."
+              : `No ${activeTab.toLowerCase()} tickets found in your account.`
+          }
+          actionLabel="Book a Ticket Now"
+          actionHref="/book-ticket"
+        />
       ) : (
         <div className="space-y-4">
-          {tickets.map((t) => (
+          {filteredTickets.map((t) => (
             <Link
               key={t.id}
               href={`/ticket/${t.id}`}
-              className="glass-panel glass-panel-hover p-6 rounded-2xl border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 block"
+              className="bg-slate-900/60 border border-slate-800 hover:border-amber-500/40 p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 block transition duration-200"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-mono font-bold text-amber-400">{t.ticket_number}</span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                    t.status === "CONFIRMED" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
-                    t.status === "USED" ? "bg-slate-500/10 text-slate-400 border border-slate-500/20" :
-                    "bg-rose-500/10 text-rose-400 border border-rose-500/20"
-                  }`}>
+                  <span
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                      t.status === 'CONFIRMED'
+                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                        : t.status === 'USED'
+                        ? 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
+                        : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                    }`}
+                  >
                     {t.status}
                   </span>
                 </div>
@@ -86,9 +117,9 @@ export default function MyTicketsPage() {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between sm:justify-end gap-6 pt-3 sm:pt-0 border-t sm:border-t-0 border-white/5">
-                <span className="text-xl font-black text-teal-400">₹{t.total_fare}</span>
-                <span className="text-xs font-bold text-teal-300 flex items-center gap-1">
+              <div className="flex items-center justify-between sm:justify-end gap-6 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800">
+                <span className="text-xl font-black text-amber-400">₹{t.total_fare}</span>
+                <span className="text-xs font-bold text-amber-300 flex items-center gap-1">
                   View QR <ArrowRight className="w-4 h-4" />
                 </span>
               </div>

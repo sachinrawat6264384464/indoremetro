@@ -9,6 +9,7 @@ from app.models.payment import Payment, PaymentWebhook
 from app.models.qr import QRValidation
 from app.models.alert import ServiceAlert
 from app.models.audit_log import AuditLog
+from app.models.nearby_place import NearbyPlace
 
 __all__ = [
     "User",
@@ -27,5 +28,6 @@ __all__ = [
     "PaymentWebhook",
     "QRValidation",
     "ServiceAlert",
-    "AuditLog"
+    "AuditLog",
+    "NearbyPlace"
 ]

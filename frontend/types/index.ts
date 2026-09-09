@@ -33,6 +33,7 @@ export interface JourneyPlan {
   dest_station: Station;
   route_name: string;
   direction: string;
+  line_color?: string;
   stop_count: number;
   estimated_time_mins: number;
   distance_km: number;
@@ -41,6 +42,13 @@ export interface JourneyPlan {
     station_order: number;
     station: Station;
   }[];
+  geojson_geometry?: any;
+}
+
+declare global {
+  interface Window {
+    L: any;
+  }
 }
 
 export interface FareCalculation {

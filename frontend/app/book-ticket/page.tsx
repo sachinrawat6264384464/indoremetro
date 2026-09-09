@@ -121,7 +121,7 @@ function BookTicketForm() {
 
     if (payRes.success && payRes.data) {
       toast.success("Ticket order created. Redirecting to payment...");
-      router.push(`/payment/${payRes.data.razorpay_order_id}?ticket_id=${ticketId}`);
+      router.push(`/payment/${payRes.data.razorpay_order_id}?ticket_id=${ticketId}&amount=${payRes.data.amount}`);
     } else {
       toast.error(payRes.error?.message || "Failed to initialize payment gateway");
     }

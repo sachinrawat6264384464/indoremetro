@@ -17,7 +17,7 @@ class JourneyService:
         if not source_st or not dest_st:
             raise MetroAPIException(status_code=404, code="STATION_NOT_FOUND", message="One or both selected stations do not exist")
 
-        # Find route matching direction
+        # Find route matching sequence
         routes = db.query(Route).filter(Route.status == "ACTIVE").all()
         selected_route = None
         source_order = None
@@ -33,7 +33,7 @@ class JourneyService:
                 dest_order = rs_dst.station_order
                 break
 
-        # Fallback to reverse route if going down direction
+        # Fallback to reverse route direction if going down
         if not selected_route:
             for route in routes:
                 rs_src = db.query(RouteStation).filter(RouteStation.route_id == route.id, RouteStation.station_id == source_station_id).first()
@@ -69,14 +69,32 @@ class JourneyService:
             for rs in route_stations
         ]
 
+        # Extract GeoJSON coordinates for journey path
+        route_coords = []
+        for rs in route_stations:
+            if rs.station and rs.station.latitude and rs.station.longitude:
+                route_coords.append([rs.station.longitude, rs.station.latitude])
+
         return {
             "source_station": source_st,
             "dest_station": dest_st,
             "route_name": selected_route.name,
             "direction": selected_route.direction,
+            "line_color": selected_route.line_color,
             "stop_count": stop_count,
             "estimated_time_mins": estimated_time_mins,
             "distance_km": round(distance_km, 2),
             "fare_amount": base_fare,
-            "intermediate_stations": intermediate
+            "intermediate_stations": intermediate,
+            "geojson_geometry": {
+                "type": "Feature",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": route_coords
+                },
+                "properties": {
+                    "line_name": selected_route.line_name,
+                    "line_color": selected_route.line_color
+                }
+            }
         }

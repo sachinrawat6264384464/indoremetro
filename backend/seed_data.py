@@ -9,7 +9,7 @@ from app.core.database import SessionLocal, Base, engine
 from app.core.security import get_password_hash
 from app.models import (
     User, Role, Permission, UserRole, RolePermission,
-    Station, Route, RouteStation, FareRule, Timetable
+    Station, Route, RouteStation, FareRule, Timetable, NearbyPlace
 )
 
 def seed():
@@ -206,6 +206,37 @@ def seed():
                     status="ACTIVE"
                 )
                 db.add(tt)
+
+        # 8. Seed Real Nearby POIs & Landmarks
+        print("Seeding Real Verified Nearby Places for Indore Stations...")
+        st_map = {st.code: st.id for st in station_objs}
+        nearby_data = [
+            (st_map.get("ST01"), "Devi Ahilya Bai Holkar International Airport", "Airport", 22.7219, 75.8011, 4.2, "Airport Rd, Indore, MP", "plane"),
+            (st_map.get("ST04"), "TCS & Infosys IT Park Campus", "College / University", 22.7445, 75.8315, 0.4, "Super Corridor, Indore", "building"),
+            (st_map.get("ST08"), "Inter State Bus Terminal (ISBT MR10)", "Bus Stand", 22.7472, 75.8705, 0.1, "MR 10 Rd, Indore", "bus"),
+            (st_map.get("ST12"), "Meghdoot Garden & Park", "Tourist Place", 22.7542, 75.8985, 0.2, "Vijay Nagar, Indore", "tree"),
+            (st_map.get("ST13"), "C21 Mall & Malhar Mega Mall", "Mall / Shopping", 22.7525, 75.8945, 0.3, "AB Rd, Vijay Nagar, Indore", "shopping-bag"),
+            (st_map.get("ST14"), "Radisson Blu Hotel Indore", "Hotel", 22.7382, 75.8975, 0.1, "Ring Rd, Indore", "hotel"),
+            (st_map.get("ST16"), "Chappan Dukan Food Street", "Restaurant", 22.7230, 75.8820, 0.8, "New Palasia, Indore", "utensils"),
+            (st_map.get("ST16"), "Indore Junction Railway Station", "Railway Station", 22.7177, 75.8682, 2.1, "Chhoti Gwaltoli, Indore", "train"),
+            (st_map.get("ST16"), "Rajwada Palace Landmark", "Tourist Place", 22.7196, 75.8570, 3.2, "Rajwada, Indore", "landmark"),
+        ]
+
+        for st_id, name, cat, lat, lng, dist, addr, icon in nearby_data:
+            if st_id:
+                np_obj = db.query(NearbyPlace).filter(NearbyPlace.name == name).first()
+                if not np_obj:
+                    np_obj = NearbyPlace(
+                        station_id=st_id,
+                        name=name,
+                        category=cat,
+                        latitude=lat,
+                        longitude=lng,
+                        distance_km=dist,
+                        address=addr,
+                        icon=icon
+                    )
+                    db.add(np_obj)
 
         db.commit()
         print("Seed script completed successfully!")

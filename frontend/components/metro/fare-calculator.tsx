@@ -19,12 +19,12 @@ export function FareCalculator() {
   useEffect(() => {
     async function loadStations() {
       const res = await apiFetch<Station[]>("/stations");
-      if (res.success && res.data) {
+      if (res.success && res.data && res.data.length > 0) {
         setStations(res.data);
-        if (res.data.length >= 2) {
-          setSourceId(res.data[0].id);
-          setDestId(res.data[1].id);
-        }
+        const first = res.data[0].id;
+        const last = res.data[res.data.length - 1].id;
+        setSourceId(first);
+        setDestId(first !== last ? last : (res.data[1]?.id || first));
       }
     }
     loadStations();
@@ -32,23 +32,32 @@ export function FareCalculator() {
 
   const handleCalculate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!sourceId || !destId) {
+      setError("Please select source and destination stations");
+      return;
+    }
     if (sourceId === destId) {
-      setError("Source and destination stations must be different");
+      setError("From Station and To Station must be different");
       return;
     }
 
     setError("");
     setLoading(true);
 
-    const res = await apiFetch<FareCalculation>(
-      `/fare/calculate?source_station_id=${sourceId}&dest_station_id=${destId}&passenger_count=${passengerCount}`
-    );
+    const res = await apiFetch<FareCalculation>("/fares/calculate", {
+      method: "POST",
+      body: JSON.stringify({
+        source_station_id: sourceId,
+        dest_station_id: destId,
+        passenger_count: passengerCount,
+      }),
+    });
 
     setLoading(false);
     if (res.success && res.data) {
       setFareResult(res.data);
     } else {
-      setError(res.message || "Failed to calculate fare");
+      setError(res.message || res.error?.message || "Failed to calculate fare");
     }
   };
 

@@ -5,6 +5,7 @@ from app.repositories.route_repository import RouteRepository, route_repository
 from app.repositories.fare_repository import FareRepository, fare_repository
 from app.repositories.ticket_repository import TicketRepository, ticket_repository
 from app.repositories.payment_repository import PaymentRepository, payment_repository
+from app.repositories.nearby_place_repository import NearbyPlaceRepository, nearby_place_repository
 
 __all__ = [
     "BaseRepository",
@@ -20,4 +21,6 @@ __all__ = [
     "ticket_repository",
     "PaymentRepository",
     "payment_repository",
+    "NearbyPlaceRepository",
+    "nearby_place_repository",
 ]
