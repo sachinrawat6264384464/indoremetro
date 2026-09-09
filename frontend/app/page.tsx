@@ -61,35 +61,23 @@ export default function HomePage() {
       )}
 
       {/* Hero Section with High-Resolution Crisp Real Train Image Showcase */}
-      <section className="relative pt-6 lg:pt-10 px-4 sm:px-6 lg:px-10 w-full space-y-8">
+      <section className="relative pt-6 lg:pt-8 px-4 sm:px-6 lg:px-10 w-full space-y-8 max-w-[1600px] mx-auto">
         
-        {/* Top Hero Showcase Card with Sharp Crisp Metro Train Background */}
-        <div className="relative rounded-3xl overflow-hidden border border-slate-300 shadow-xl bg-white">
-          
-          {/* Crisp Train Image on Right Half */}
-          <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 z-0">
-            <Image
-              src="/image.png"
-              alt="Official Indore Metro Yellow Coach"
-              fill
-              className="object-cover object-right shadow-inner"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent lg:hidden" />
-          </div>
-          <div className="hidden lg:block absolute inset-y-0 left-0 w-7/12 bg-gradient-to-r from-white via-white to-white/60 z-10" />
-
-          <div className="relative z-20 p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        {/* Main Hero Card Container */}
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden p-6 sm:p-10 lg:p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left Column: Headline, Description & Stats (7 Cols) */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-extrabold shadow-sm">
                 <Train className="w-4 h-4 text-amber-600" /> Official MPMRCL Transit Platform
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
                 Move Smarter with <span className="text-amber-500">Indore Metro</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed max-w-xl font-medium">
+              <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium max-w-2xl">
                 Experience high-speed, eco-friendly urban commuting across the Priority Corridor. Book signed Digital QR tickets and check live train frequencies in real time.
               </p>
 
@@ -102,7 +90,7 @@ export default function HomePage() {
                 </Link>
                 <Link
                   href="/book-ticket"
-                  className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold shadow-sm transition flex items-center gap-2"
+                  className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold shadow-sm transition flex items-center gap-2"
                 >
                   <QrCode className="w-4 h-4 text-amber-400" /> Book Digital QR Pass
                 </Link>
@@ -110,29 +98,30 @@ export default function HomePage() {
 
               {/* Quick Stats Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-200">
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900">29</span>
+                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block">29</span>
                   <p className="text-xs text-slate-600 font-bold">Total Stations</p>
                 </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-emerald-600">16</span>
+                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+                  <span className="text-2xl sm:text-3xl font-black text-emerald-600 block">16</span>
                   <p className="text-xs text-slate-600 font-bold">Active Operational</p>
                 </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-amber-600">31.46 km</span>
+                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+                  <span className="text-2xl sm:text-3xl font-black text-amber-600 block">31.46 km</span>
                   <p className="text-xs text-slate-600 font-bold">Yellow Line Loop</p>
                 </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black text-sky-600">7 Mins</span>
+                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
+                  <span className="text-2xl sm:text-3xl font-black text-sky-600 block">7 Mins</span>
                   <p className="text-xs text-slate-600 font-bold">Peak Frequency</p>
                 </div>
               </div>
             </div>
 
-            {/* Quick Journey Planner Widget Overlay */}
-            <div className="lg:col-span-5 relative z-30">
+            {/* Right Column: Clean Journey Planner Widget (5 Cols) */}
+            <div className="lg:col-span-5">
               <JourneyPlannerWidget />
             </div>
+
           </div>
         </div>
 

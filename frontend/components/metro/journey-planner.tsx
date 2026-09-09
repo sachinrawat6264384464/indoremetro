@@ -85,15 +85,15 @@ export default function JourneyPlannerWidget() {
         </span>
       </div>
 
-      <form onSubmit={handlePlan} className="space-y-5">
-        <div className="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
-          {/* Source Station */}
-          <div className="md:col-span-5 space-y-1.5">
-            <label className="text-xs font-bold text-slate-900 uppercase tracking-wider">From Station</label>
+      <form onSubmit={handlePlan} className="space-y-4">
+        {/* Source Station */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">From Station</label>
+          <div className="relative">
             <select
               value={sourceId}
               onChange={(e) => setSourceId(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 text-sm font-semibold shadow-sm"
+              className="w-full h-12 pl-4 pr-10 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white text-sm font-bold shadow-sm transition appearance-none cursor-pointer truncate"
             >
               {stations.map((st) => (
                 <option key={st.id} value={st.id}>
@@ -101,27 +101,36 @@ export default function JourneyPlannerWidget() {
                 </option>
               ))}
             </select>
+            <div className="absolute right-3.5 top-3.5 pointer-events-none text-slate-400">
+              ▼
+            </div>
           </div>
+        </div>
 
-          {/* Swap Button */}
-          <div className="md:col-span-1 flex justify-center pt-5">
-            <button
-              type="button"
-              onClick={handleSwap}
-              className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 hover:text-slate-900 flex items-center justify-center transition shadow-sm"
-              title="Swap stations"
-            >
-              <ArrowRightLeft className="w-4 h-4" />
-            </button>
+        {/* Swap Button Divider */}
+        <div className="relative flex justify-center py-1">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-slate-200" />
           </div>
+          <button
+            type="button"
+            onClick={handleSwap}
+            className="relative z-10 px-3.5 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-900 text-xs font-extrabold flex items-center gap-1.5 shadow-sm transition"
+            title="Swap origin and destination"
+          >
+            <ArrowRightLeft className="w-3.5 h-3.5 text-amber-600" />
+            <span>Swap Stations</span>
+          </button>
+        </div>
 
-          {/* Dest Station */}
-          <div className="md:col-span-5 space-y-1.5">
-            <label className="text-xs font-bold text-slate-900 uppercase tracking-wider">To Station</label>
+        {/* Dest Station */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">To Station</label>
+          <div className="relative">
             <select
               value={destId}
               onChange={(e) => setDestId(e.target.value)}
-              className="w-full h-12 px-4 rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 text-sm font-semibold shadow-sm"
+              className="w-full h-12 pl-4 pr-10 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white text-sm font-bold shadow-sm transition appearance-none cursor-pointer truncate"
             >
               {stations.map((st) => (
                 <option key={st.id} value={st.id}>
@@ -129,6 +138,9 @@ export default function JourneyPlannerWidget() {
                 </option>
               ))}
             </select>
+            <div className="absolute right-3.5 top-3.5 pointer-events-none text-slate-400">
+              ▼
+            </div>
           </div>
         </div>
 
