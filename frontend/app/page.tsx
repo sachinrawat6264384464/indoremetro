@@ -64,7 +64,7 @@ export default function HomePage() {
       <section className="relative pt-6 lg:pt-8 px-4 sm:px-6 lg:px-10 w-full space-y-8 max-w-[1600px] mx-auto">
         
         {/* Main Hero Card Container */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden p-6 sm:p-10 lg:p-12">
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-10 lg:p-12 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* Left Column: Headline, Description & Stats (7 Cols) */}
