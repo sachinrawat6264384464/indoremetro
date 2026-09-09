@@ -19,5 +19,6 @@ backend/*.db
 
 # Logs & OS files
 *.log
+*.tsbuildinfo
 .DS_Store
 Thumbs.db
