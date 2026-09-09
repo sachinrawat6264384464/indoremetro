@@ -39,12 +39,12 @@ export default function HomePage() {
       {/* Hero Section with High-Resolution Image Background & Floating Showcase */}
       <section className="relative pt-8 lg:pt-14 px-4 sm:px-6 lg:px-10 w-full space-y-10">
         
-        {/* Top Hero Showcase Card with Background Metro Train Image */}
-        <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
-          <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity hover:opacity-50 transition duration-700">
+        {/* Top Hero Showcase Card with Background Real Metro Train Image */}
+        <div className="relative rounded-3xl overflow-hidden border border-amber-500/30 shadow-2xl bg-slate-950">
+          <div className="absolute inset-0 z-0 opacity-50 transition duration-700">
             <Image
-              src="/images/hero_metro_train.png"
-              alt="Indore Metro Train"
+              src="/image.png"
+              alt="Official Indore Metro Yellow Coach"
               fill
               className="object-cover object-center"
               priority
@@ -134,17 +134,17 @@ export default function HomePage() {
       <section className="w-full px-4 sm:px-6 lg:px-10">
         <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-2xl">
           
-          <div className="lg:col-span-5 relative h-72 sm:h-80 rounded-2xl overflow-hidden border border-slate-800 shadow-xl">
+          <div className="lg:col-span-5 relative h-72 sm:h-80 rounded-2xl overflow-hidden border border-amber-500/30 shadow-xl">
             <Image
-              src="/images/qr_scanner_gate.png"
-              alt="Automatic Fare Collection QR Gate"
+              src="/images/{3029DCFD-7960-48FC-A5E7-CD1301682249}.png"
+              alt="Indore Metro Official Fleet Profile"
               fill
               className="object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
             <div className="absolute bottom-4 left-4 right-4 p-3 bg-slate-900/90 border border-slate-700/80 rounded-xl backdrop-blur-md text-xs">
-              <span className="font-bold text-amber-400 block">Automatic Fare Collection (AFC)</span>
-              <span className="text-slate-300">Instant contactless QR code scanning at gate turnstiles</span>
+              <span className="font-bold text-amber-400 block">Indore Metro Priority Corridor Fleet</span>
+              <span className="text-slate-300">Official Standard Gauge Electric Multiple Unit (EMU)</span>
             </div>
           </div>
 

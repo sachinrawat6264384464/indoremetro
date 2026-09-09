@@ -1,40 +1,31 @@
-// Indore Metro Design System Tokens
+// Indore Metro Strict Official 3-Color Design Tokens
+// Palette extracted directly from Official Indore Metro Yellow-Navy-Silver Train Livery
 
 export const tokens = {
   colors: {
-    brand: {
-      navyDark: '#070A12',
-      navyPanel: '#0F172A',
-      navyBorder: '#1E293B',
-      primary: '#3B82F6', // Metro Blue
-      primaryHover: '#2563EB',
-      accentAmber: '#F59E0B', // Yellow Line Accent
-      accentTeal: '#0D9488',
-      emeraldSuccess: '#10B981',
-      roseDanger: '#EF4444',
+    // 1. Primary Brand Accent: Indore Metro Train Yellow (#F59E0B, #FBBF24, #EAB308)
+    yellow: {
+      primary: '#F59E0B',
+      bright: '#FBBF24',
+      amber: '#EAB308',
+      badgeBg: 'rgba(245, 158, 11, 0.15)',
+      badgeText: '#FBBF24',
+      badgeBorder: 'rgba(245, 158, 11, 0.3)',
+      glow: 'rgba(245, 158, 11, 0.25)',
     },
-    lines: {
-      yellow: {
-        hex: '#F59E0B',
-        name: 'Yellow Line (Priority Corridor)',
-        badgeBg: 'rgba(245, 158, 11, 0.15)',
-        badgeText: '#FBBF24',
-        badgeBorder: 'rgba(245, 158, 11, 0.3)',
-      },
-      blue: {
-        hex: '#3B82F6',
-        name: 'Blue Line (Proposed)',
-        badgeBg: 'rgba(59, 130, 246, 0.15)',
-        badgeText: '#60A5FA',
-        badgeBorder: 'rgba(59, 130, 246, 0.3)',
-      },
+    // 2. Base Dark Theme: Deep Navy & Midnight Charcoal (#070A12, #0F172A, #1E293B)
+    navy: {
+      dark: '#070A12',
+      panel: '#0F172A',
+      border: '#1E293B',
+      card: 'rgba(15, 23, 42, 0.7)',
     },
-    status: {
-      operational: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
-      testing: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
-      under_construction: { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
-      planned: { bg: 'bg-slate-500/10', text: 'text-slate-400', border: 'border-slate-500/20' },
-      disrupted: { bg: 'bg-rose-500/10', text: 'text-rose-400', border: 'border-rose-500/20' },
+    // 3. Metallic Silver & Crisp Light Text (#F8FAFC, #CBD5E1, #94A3B8)
+    silver: {
+      light: '#F8FAFC',
+      textMuted: '#CBD5E1',
+      subtext: '#94A3B8',
+      borderSubtle: 'rgba(226, 232, 240, 0.1)',
     },
   },
   typography: {
@@ -60,6 +51,3 @@ export const tokens = {
     toast: 1060,
   },
 } as const;
-
-export type LineKey = keyof typeof tokens.colors.lines;
-export type StatusKey = keyof typeof tokens.colors.status;
