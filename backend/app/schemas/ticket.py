@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
 from datetime import date, datetime
 from app.schemas.station import StationResponse
@@ -12,7 +12,7 @@ class TicketBookRequest(BaseModel):
     source_station_id: str
     dest_station_id: str
     journey_date: date
-    passengers: List[PassengerInfo] = Field(..., min_items=1, max_items=10)
+    passengers: List[PassengerInfo] = Field(..., min_length=1, max_length=10)
 
 class TicketPassengerResponse(BaseModel):
     id: str
@@ -20,8 +20,7 @@ class TicketPassengerResponse(BaseModel):
     passenger_type: str
     age: Optional[int]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class TicketResponse(BaseModel):
     id: str
@@ -38,5 +37,5 @@ class TicketResponse(BaseModel):
     created_at: datetime
     passengers: List[TicketPassengerResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+

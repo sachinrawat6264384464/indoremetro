@@ -10,12 +10,8 @@ from app.repositories import (
 )
 
 @pytest.fixture
-def db():
-    session = SessionLocal()
-    try:
-        yield session
-    finally:
-        session.close()
+def db(db_session):
+    return db_session
 
 def test_station_repository(db):
     stations = station_repository.get_all(db)

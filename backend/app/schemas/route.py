@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 from app.schemas.station import StationResponse
 
@@ -9,8 +9,7 @@ class RouteStationResponse(BaseModel):
     travel_time_mins: int
     station: StationResponse
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class RouteResponse(BaseModel):
     id: str
@@ -22,8 +21,7 @@ class RouteResponse(BaseModel):
     status: str
     route_stations: List[RouteStationResponse] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class RouteStationOrderUpdate(BaseModel):
     station_id: str
