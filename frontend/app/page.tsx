@@ -60,31 +60,31 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Hero Section with High-Resolution Crisp Real Train Image Showcase */}
-      <section className="relative pt-6 lg:pt-8 px-4 sm:px-6 lg:px-10 w-full space-y-8 max-w-[1600px] mx-auto">
+      {/* Full-Width Hero Section with Sharp High-Resolution Real Train Background */}
+      <section className="relative pt-4 lg:pt-6 w-full space-y-8 px-4 sm:px-6 lg:px-8">
         
-        {/* Main Hero Card Container with Full Background Image */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
+        {/* Main Hero Card Container with Full Width & Sharp Background */}
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group w-full">
           
-          {/* Full Background Image Layer */}
+          {/* Sharp Background Image Layer (Zero Heavy Fading/Blur) */}
           <div className="absolute inset-0 z-0">
             <Image
               src="/images/hero_metro_train.png"
               alt="Indore Metro Train Background"
               fill
               priority
-              className="object-cover object-right lg:object-center opacity-25 group-hover:scale-105 transition-transform duration-1000 ease-out pointer-events-none"
+              className="object-cover object-center sm:object-right opacity-85 group-hover:scale-105 transition-transform duration-1000 ease-out pointer-events-none"
             />
-            {/* Smooth Overlay Gradient for High Text Contrast */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/60 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/40 pointer-events-none" />
+            {/* Subtle Gradient Overlay for Clean Text Contrast while keeping train image sharp */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/30 pointer-events-none" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
             
-            {/* Left Column: Headline, Description & Stats (7 Cols) */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 backdrop-blur-md border border-amber-300 text-amber-950 text-xs font-black shadow-sm">
+            {/* Left Column: Headline, Description & Stats (7 Cols) with Glass Backdrop */}
+            <div className="lg:col-span-7 space-y-6 bg-white/85 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-white/90 shadow-lg">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 border border-amber-300 text-amber-950 text-xs font-black shadow-sm">
                 <Train className="w-4 h-4 text-amber-600 animate-bounce" /> Official MPMRCL Transit Platform
               </div>
 
@@ -113,19 +113,19 @@ export default function HomePage() {
 
               {/* Quick Stats Grid with Glassmorphic Backdrop */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-200/80">
-                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                <div className="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
                   <span className="text-2xl sm:text-3xl font-black text-slate-900 block font-mono">29</span>
                   <p className="text-xs text-slate-700 font-black">Total Stations</p>
                 </div>
-                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                <div className="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
                   <span className="text-2xl sm:text-3xl font-black text-emerald-600 block font-mono">16</span>
                   <p className="text-xs text-slate-700 font-black">Active Operational</p>
                 </div>
-                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                <div className="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
                   <span className="text-2xl sm:text-3xl font-black text-amber-600 block font-mono">31.46 km</span>
                   <p className="text-xs text-slate-700 font-black">Yellow Line Loop</p>
                 </div>
-                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                <div className="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
                   <span className="text-2xl sm:text-3xl font-black text-sky-600 block font-mono">7 Mins</span>
                   <p className="text-xs text-slate-700 font-black">Peak Frequency</p>
                 </div>
