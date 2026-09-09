@@ -63,56 +63,71 @@ export default function HomePage() {
       {/* Hero Section with High-Resolution Crisp Real Train Image Showcase */}
       <section className="relative pt-6 lg:pt-8 px-4 sm:px-6 lg:px-10 w-full space-y-8 max-w-[1600px] mx-auto">
         
-        {/* Main Hero Card Container */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-10 lg:p-12 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        {/* Main Hero Card Container with Full Background Image */}
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
+          
+          {/* Full Background Image Layer */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/hero_metro_train.png"
+              alt="Indore Metro Train Background"
+              fill
+              priority
+              className="object-cover object-right lg:object-center opacity-25 group-hover:scale-105 transition-transform duration-1000 ease-out pointer-events-none"
+            />
+            {/* Smooth Overlay Gradient for High Text Contrast */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/60 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/40 pointer-events-none" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
             
             {/* Left Column: Headline, Description & Stats (7 Cols) */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-extrabold shadow-sm">
-                <Train className="w-4 h-4 text-amber-600" /> Official MPMRCL Transit Platform
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 backdrop-blur-md border border-amber-300 text-amber-950 text-xs font-black shadow-sm">
+                <Train className="w-4 h-4 text-amber-600 animate-bounce" /> Official MPMRCL Transit Platform
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
-                Move Smarter with <span className="text-amber-500">Indore Metro</span>
+                Move Smarter with <span className="text-amber-500 underline decoration-amber-300 decoration-wavy decoration-2">Indore Metro</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-medium max-w-2xl">
+              <p className="text-base sm:text-lg text-slate-800 leading-relaxed font-bold max-w-2xl">
                 Experience high-speed, eco-friendly urban commuting across the Priority Corridor. Book signed Digital QR tickets and check live train frequencies in real time.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link
                   href="/journey"
-                  className="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold shadow-md shadow-amber-500/20 transition flex items-center gap-2"
+                  className="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-lg shadow-amber-500/25 transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
                 >
                   Plan Journey <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="/book-ticket"
-                  className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold shadow-sm transition flex items-center gap-2"
+                  className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black shadow-md transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
                 >
                   <QrCode className="w-4 h-4 text-amber-400" /> Book Digital QR Pass
                 </Link>
               </div>
 
-              {/* Quick Stats Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-200">
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
-                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block">29</span>
-                  <p className="text-xs text-slate-600 font-bold">Total Stations</p>
+              {/* Quick Stats Grid with Glassmorphic Backdrop */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-200/80">
+                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                  <span className="text-2xl sm:text-3xl font-black text-slate-900 block font-mono">29</span>
+                  <p className="text-xs text-slate-700 font-black">Total Stations</p>
                 </div>
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
-                  <span className="text-2xl sm:text-3xl font-black text-emerald-600 block">16</span>
-                  <p className="text-xs text-slate-600 font-bold">Active Operational</p>
+                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                  <span className="text-2xl sm:text-3xl font-black text-emerald-600 block font-mono">16</span>
+                  <p className="text-xs text-slate-700 font-black">Active Operational</p>
                 </div>
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
-                  <span className="text-2xl sm:text-3xl font-black text-amber-600 block">31.46 km</span>
-                  <p className="text-xs text-slate-600 font-bold">Yellow Line Loop</p>
+                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                  <span className="text-2xl sm:text-3xl font-black text-amber-600 block font-mono">31.46 km</span>
+                  <p className="text-xs text-slate-700 font-black">Yellow Line Loop</p>
                 </div>
-                <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80">
-                  <span className="text-2xl sm:text-3xl font-black text-sky-600 block">7 Mins</span>
-                  <p className="text-xs text-slate-600 font-bold">Peak Frequency</p>
+                <div className="bg-white/80 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+                  <span className="text-2xl sm:text-3xl font-black text-sky-600 block font-mono">7 Mins</span>
+                  <p className="text-xs text-slate-700 font-black">Peak Frequency</p>
                 </div>
               </div>
             </div>
