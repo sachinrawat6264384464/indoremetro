@@ -31,7 +31,7 @@ export default function StationsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-10">
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="w-full max-w-[1600px] mx-auto space-y-8">
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
           <div>

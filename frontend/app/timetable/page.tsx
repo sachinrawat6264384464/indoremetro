@@ -36,8 +36,8 @@ export default function TimetablePage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-10">
+    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-10">
+      <div className="w-full max-w-[1600px] mx-auto space-y-10">
         
         {/* Page Title & Subtitle */}
         <div className="border-b border-slate-200 pb-6">

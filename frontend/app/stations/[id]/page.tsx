@@ -26,8 +26,8 @@ export default function StationDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-10">
+      <div className="w-full max-w-[1600px] mx-auto space-y-8">
         <button
           onClick={() => router.back()}
           className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 font-semibold transition"

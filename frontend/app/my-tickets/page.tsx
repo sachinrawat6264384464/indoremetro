@@ -38,8 +38,8 @@ export default function MyTicketsPage() {
     : tickets.filter((t) => t.status === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-10">
+      <div className="w-full max-w-[1600px] mx-auto space-y-8">
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
           <div>
@@ -89,7 +89,7 @@ export default function MyTicketsPage() {
             actionHref="/book-ticket"
           />
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTickets.map((t) => (
               <Link
                 key={t.id}

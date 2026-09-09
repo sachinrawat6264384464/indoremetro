@@ -30,8 +30,8 @@ export default function TicketDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4">
-      <div className="max-w-xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-10">
+      <div className="w-full max-w-[1200px] mx-auto space-y-6">
         <button
           onClick={() => router.push("/my-tickets")}
           className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 font-bold transition"

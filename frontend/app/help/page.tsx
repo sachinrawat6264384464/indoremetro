@@ -22,8 +22,8 @@ export default function HelpPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-10">
+    <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6 lg:px-10">
+      <div className="w-full max-w-[1600px] mx-auto space-y-10">
         
         <div className="text-center space-y-2 border-b border-slate-200 pb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold mb-2">

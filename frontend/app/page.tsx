@@ -422,7 +422,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="w-full px-4 sm:px-6 lg:px-10 max-w-6xl mx-auto">
+      <section className="w-full px-4 sm:px-6 lg:px-10 max-w-[1600px] mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-slate-900">Frequently Asked Questions</h2>
           <p className="text-slate-500 text-sm mt-2">Got questions about Indore Metro ticketing and schedules?</p>

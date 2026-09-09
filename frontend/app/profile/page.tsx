@@ -21,8 +21,8 @@ export default function ProfilePage() {
   if (!user) return <div className="text-center py-24 text-slate-500 font-medium">Loading profile...</div>;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4">
-      <div className="max-w-xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4 sm:px-6 lg:px-10">
+      <div className="w-full max-w-[1200px] mx-auto space-y-6">
         <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-md space-y-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-amber-500 text-slate-950 font-black text-2xl flex items-center justify-center shadow-md">
