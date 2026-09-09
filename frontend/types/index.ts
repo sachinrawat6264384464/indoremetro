@@ -2,11 +2,19 @@ export interface Station {
   id: string;
   name: string;
   code: string;
+  hindi_name?: string;
+  area?: string;
+  station_number?: number;
   line_name: string;
+  timings?: string;
+  base_fare?: string;
   latitude?: number;
   longitude?: number;
-  status: 'ACTIVE' | 'INACTIVE' | 'UNDER_CONSTRUCTION';
+  status: 'ACTIVE' | 'INACTIVE' | 'UNDER_CONSTRUCTION' | 'OPERATIONAL' | 'UPCOMING' | string;
   amenities: string[];
+  gates?: { gate: string; desc: string }[];
+  nearby_transport?: { title: string; location: string; fare: string }[];
+  parking_charges?: { vehicle: string; day: string; night: string }[];
 }
 
 export interface RouteStation {

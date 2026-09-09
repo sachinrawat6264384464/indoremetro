@@ -13,7 +13,8 @@ from app.models import (
 )
 
 def seed():
-    print("Initializing Database tables...")
+    print("Re-initializing Database tables with updated schemas...")
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
@@ -87,42 +88,83 @@ def seed():
             db.flush()
             db.add(UserRole(user_id=test_passenger.id, role_id=role_map["PASSENGER"].id))
 
-        # 4. Seed Stations (Indore Metro Yellow Line Priority Corridor)
-        print("Seeding Verified Indore Metro Yellow Line Stations...")
+        # 4. Seed Stations (All 29 Official Indore Metro Yellow Line Stations)
+        print("Seeding All 29 Official Indore Metro Yellow Line Stations...")
         indore_stations = [
-            ("Gandhi Nagar", "ST01", 22.7562, 75.8055, ["Wi-Fi", "Elevator", "Parking", "ATM"]),
-            ("Super Corridor 2", "ST02", 22.7511, 75.8150, ["Wi-Fi", "Elevator", "Parking"]),
-            ("Super Corridor 3", "ST03", 22.7480, 75.8235, ["Wi-Fi", "Elevator"]),
-            ("Super Corridor 4", "ST04", 22.7450, 75.8320, ["Wi-Fi", "Elevator", "ATM"]),
-            ("Super Corridor 5", "ST05", 22.7420, 75.8410, ["Wi-Fi", "Elevator"]),
-            ("Super Corridor 6", "ST06", 22.7390, 75.8500, ["Wi-Fi", "Elevator", "Parking"]),
-            ("MR 10 Road", "ST07", 22.7430, 75.8600, ["Wi-Fi", "Elevator", "ATM"]),
-            ("ISBT / MR 10", "ST08", 22.7470, 75.8700, ["Wi-Fi", "Elevator", "Bus Interchange", "Parking"]),
-            ("Chandragupta Square", "ST09", 22.7500, 75.8780, ["Wi-Fi", "Elevator"]),
-            ("Hira Nagar", "ST10", 22.7530, 75.8850, ["Wi-Fi", "Elevator"]),
-            ("Bapat Square", "ST11", 22.7560, 75.8920, ["Wi-Fi", "Elevator", "ATM"]),
-            ("Meghdoot Garden", "ST12", 22.7540, 75.8980, ["Wi-Fi", "Elevator", "Park Access"]),
-            ("Vijay Nagar Square", "ST13", 22.7520, 75.8940, ["Wi-Fi", "Elevator", "Commercial Hub", "ATM"]),
-            ("Radisson Square", "ST14", 22.7380, 75.8970, ["Wi-Fi", "Elevator", "Hotel Access"]),
-            ("Mumtaj Bag", "ST15", 22.7290, 75.8920, ["Wi-Fi", "Elevator"]),
-            ("Palasia", "ST16", 22.7200, 75.8840, ["Wi-Fi", "Elevator", "Shopping Hub", "Parking"])
+            (1, "Devi Ahilya Bai Holkar Terminal", "ST01", "देवी अहिल्या बाई होल्कर टर्मिनल", "Super Corridor", 22.7562, 75.8055, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Public Toilets", "Drinking Water", "Parking", "Free Wi-Fi", "ATM", "Feeder Bus / Auto"], [{"gate": "Gate 1", "desc": "Super Corridor Road / IT Park"}, {"gate": "Gate 2", "desc": "MR-10 Side"}]),
+            (2, "Maharani Lakshmi Bai", "ST02", "महारानी लक्ष्मी बाई", "Super Corridor", 22.7511, 75.8150, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Public Toilets", "Drinking Water", "Free Wi-Fi"], [{"gate": "Gate 1", "desc": "Super Corridor Sector 2"}]),
+            (3, "Rani Avanti Bai Lodhi", "ST03", "रानी अवंती बाई लोधी", "Super Corridor", 22.7480, 75.8235, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Drinking Water"], [{"gate": "Gate 1", "desc": "Super Corridor Sector 3"}]),
+            (4, "Rani Durgavati", "ST04", "रानी दुर्गावती", "Super Corridor", 22.7450, 75.8320, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "ATM"], [{"gate": "Gate 1", "desc": "Super Corridor Sector 4"}]),
+            (5, "Veerangana Jhalkari Bai", "ST05", "वीरांगना झलकारी बाई", "Gandhi Nagar", 22.7420, 75.8410, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Parking", "Free Wi-Fi"], [{"gate": "Gate 1", "desc": "Gandhi Nagar Main Road"}]),
+            (6, "Super Corridor 2", "ST06", "सुपर कॉरिडोर 2", "Super Corridor", 22.7390, 75.8500, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Parking"], [{"gate": "Gate 1", "desc": "Super Corridor East"}]),
+            (7, "Super Corridor 1", "ST07", "सुपर कॉरिडोर 1", "Super Corridor", 22.7430, 75.8600, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "ATM"], [{"gate": "Gate 1", "desc": "Super Corridor Junction"}]),
+            (8, "Bhawarshala Square", "ST08", "भंवरशाला स्क्वायर", "Bhawarshala", 22.7470, 75.8700, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Parking", "Bus Interchange"], [{"gate": "Gate 1", "desc": "Bhawarshala Chauraha"}]),
+            (9, "MR 10 Road", "ST09", "एमआर 10 रोड", "MR-10", 22.7500, 75.8780, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "ATM"], [{"gate": "Gate 1", "desc": "MR 10 Road Exit"}]),
+            (10, "ISBT / MR 10 Flyover", "ST10", "आईएसबीटी / एमआर 10 फ्लाईओवर", "MR-10", 22.7530, 75.8850, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Bus Interchange", "Parking", "ATM"], [{"gate": "Gate 1", "desc": "ISBT Terminal Entrance"}]),
+            (11, "Chandragupta Square", "ST11", "चंद्रगुप्त स्क्वायर", "Vijay Nagar", 22.7560, 75.8920, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Free Wi-Fi"], [{"gate": "Gate 1", "desc": "Chandragupta Square"}]),
+            (12, "Hira Nagar", "ST12", "हीरा नगर", "Hira Nagar", 22.7540, 75.8980, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Drinking Water"], [{"gate": "Gate 1", "desc": "Hira Nagar Main Road"}]),
+            (13, "Bapat Square", "ST13", "बापट स्क्वायर", "Bapat Square", 22.7520, 75.8940, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "ATM", "Parking"], [{"gate": "Gate 1", "desc": "Bapat Square Market"}]),
+            (14, "Meghdoot Garden", "ST14", "मेघदूत गार्डन", "Vijay Nagar", 22.7380, 75.8970, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Park Access", "Parking"], [{"gate": "Gate 1", "desc": "Meghdoot Park Main Entrance"}]),
+            (15, "Vijay Nagar Square", "ST15", "विजय नगर स्क्वायर", "Vijay Nagar", 22.7290, 75.8920, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Commercial Hub", "ATM", "Free Wi-Fi"], [{"gate": "Gate 1", "desc": "Vijay Nagar Square / Malhar Mall Side"}]),
+            (16, "Radisson Square", "ST16", "रेडिसन स्क्वायर", "Vijay Nagar", 22.7200, 75.8840, "ACTIVE", ["Lift & Escalator", "Wheelchair Accessible", "Hotel Access", "Parking"], [{"gate": "Gate 1", "desc": "Radisson Blu Hotel Road"}]),
+            (17, "Mumtaj Bag Colony", "ST17", "मुमताज बाग कॉलोनी", "Mumtaj Bag", 22.7150, 75.8750, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Wheelchair Accessible"], [{"gate": "Gate 1", "desc": "Mumtaj Bag Colony Road"}]),
+            (18, "Khajrana Square", "ST18", "खजराना स्क्वायर", "Khajrana", 22.7100, 75.8700, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Wheelchair Accessible"], [{"gate": "Gate 1", "desc": "Khajrana Temple Road"}]),
+            (19, "Bengali Square", "ST19", "बंगाली स्क्वायर", "Bengali Square", 22.7050, 75.8650, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Wheelchair Accessible"], [{"gate": "Gate 1", "desc": "Bengali Square Ring Road"}]),
+            (20, "Patrakar Colony", "ST20", "पत्रकार कॉलोनी", "Patrakar Colony", 22.7000, 75.8600, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Wheelchair Accessible"], [{"gate": "Gate 1", "desc": "Patrakar Colony Main Entrance"}]),
+            (21, "Palasia Square", "ST21", "पलासिया स्क्वायर", "Palasia", 22.7200, 75.8840, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Wheelchair Accessible", "Shopping Hub", "Parking"], [{"gate": "Gate 1", "desc": "Greater Palasia Chauraha"}]),
+            (22, "High Court", "ST22", "हाई कोर्ट", "MG Road", 22.7180, 75.8650, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Wheelchair Accessible"], [{"gate": "Gate 1", "desc": "MP High Court Gate"}]),
+            (23, "Indore Junction Railway Station", "ST23", "इंदौर जंक्शन रेलवे स्टेशन", "Railway Station", 22.7177, 75.8682, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Railway Interchange", "ATM"], [{"gate": "Gate 1", "desc": "Railway Platform Entrance"}]),
+            (24, "Rajwada", "ST24", "राजवाड़ा", "Old City", 22.7196, 75.8577, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Heritage Hub"], [{"gate": "Gate 1", "desc": "Rajwada Palace Entrance"}]),
+            (25, "Chota Ganpati", "ST25", "छोटा गणपति", "Chota Ganpati", 22.7220, 75.8500, "UNDER_CONSTRUCTION", ["Lift & Escalator"], [{"gate": "Gate 1", "desc": "Chota Ganpati Temple Road"}]),
+            (26, "Bada Ganpati", "ST26", "बड़ा गणपति", "Bada Ganpati", 22.7250, 75.8450, "UNDER_CONSTRUCTION", ["Lift & Escalator"], [{"gate": "Gate 1", "desc": "Bada Ganpati Chauraha"}]),
+            (27, "Ramchandra Nagar Square", "ST27", "रामचंद्र नगर स्क्वायर", "Ramchandra Nagar", 22.7280, 75.8400, "UNDER_CONSTRUCTION", ["Lift & Escalator"], [{"gate": "Gate 1", "desc": "Ramchandra Nagar Main Road"}]),
+            (28, "BSF / Kalani Nagar", "ST28", "बीएसएफ / कलानी नगर", "Kalani Nagar", 22.7320, 75.8350, "UNDER_CONSTRUCTION", ["Lift & Escalator"], [{"gate": "Gate 1", "desc": "BSF Campus Gate"}]),
+            (29, "Airport", "ST29", "एयरपोर्ट", "Indore Airport", 22.7250, 75.8020, "UNDER_CONSTRUCTION", ["Lift & Escalator", "Airport Underground Shuttle", "Parking"], [{"gate": "Gate 1", "desc": "Indore Airport Departure Terminal"}])
         ]
 
         station_objs = []
-        for name, code, lat, lng, amenities in indore_stations:
+        for num, name, code, hindi_name, area, lat, lng, status, amenities, gates in indore_stations:
             st = db.query(Station).filter(Station.code == code).first()
+            nearby = [
+                {"title": f"City Bus Stop - {name}", "location": "Gate 1", "fare": "City bus ₹10+"},
+                {"title": "Auto / E-Rickshaw Stand", "location": "Near exit", "fare": "₹20-50"}
+            ]
+            parking = [
+                {"vehicle": "Two-wheeler", "day": "₹10", "night": "₹20"},
+                {"vehicle": "Car", "day": "₹30", "night": "₹50"},
+                {"vehicle": "Cycle", "day": "₹5", "night": "₹10"}
+            ]
             if not st:
                 st = Station(
                     name=name,
                     code=code,
+                    hindi_name=hindi_name,
+                    area=area,
+                    station_number=num,
                     line_name="Yellow Line",
+                    timings="06:00 AM - 10:00 PM",
+                    base_fare="₹10",
                     latitude=lat,
                     longitude=lng,
-                    status="ACTIVE",
-                    amenities=amenities
+                    status=status,
+                    amenities=amenities,
+                    gates=gates,
+                    nearby_transport=nearby,
+                    parking_charges=parking
                 )
                 db.add(st)
                 db.flush()
+            else:
+                st.name = name
+                st.hindi_name = hindi_name
+                st.area = area
+                st.station_number = num
+                st.status = status
+                st.amenities = amenities
+                st.gates = gates
+                st.nearby_transport = nearby
+                st.parking_charges = parking
+                db.commit()
             station_objs.append(st)
 
         # 5. Seed Routes & Station Ordering
