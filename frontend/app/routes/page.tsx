@@ -6,6 +6,7 @@ import { Train, ArrowRight, MapPin, Clock, Navigation, Search, LayoutGrid, ListF
 import { apiFetch } from "@/lib/api";
 import { Route } from "@/types";
 import { FALLBACK_ROUTES } from "@/lib/data/fallback-stations";
+import { MetroRingGraph } from "@/components/metro/metro-ring-graph";
 
 export default function RoutesPage() {
   const [routes, setRoutes] = useState<Route[]>([]);
@@ -294,6 +295,9 @@ export default function RoutesPage() {
           </div>
 
         )}
+
+        {/* Cyclic Ring Loop Metro Network Graph */}
+        <MetroRingGraph stations={activeRoute?.route_stations?.map((rs) => rs.station) || []} />
 
       </div>
     </div>
