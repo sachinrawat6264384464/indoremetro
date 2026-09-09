@@ -63,8 +63,8 @@ export default function HomePage() {
       {/* Full-Width Hero Section with Sharp Real Train Background */}
       <section className="relative pt-4 lg:pt-6 w-full space-y-8 px-4 sm:px-6 lg:px-8">
         
-        {/* Main Hero Card Container with Grand Height & Sharp Background */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-10 lg:p-12 min-h-[580px] lg:min-h-[640px] flex flex-col justify-center relative overflow-hidden group w-full">
+        {/* Main Hero Card Container with Perfect Balanced Height & Sharp Background */}
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-5 sm:p-7 lg:p-8 min-h-[480px] lg:min-h-[540px] flex flex-col justify-center relative overflow-hidden group w-full">
           
           {/* Sharp Background Image Layer (High Clarity, Crisp View) */}
           <div className="absolute inset-0 z-0">
