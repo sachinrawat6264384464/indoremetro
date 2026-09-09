@@ -131,8 +131,8 @@ export default function FarePage() {
         </div>
 
         {/* Main Calculator Card */}
-        <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-xl space-y-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-xl space-y-8 relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none rounded-r-3xl" />
 
           <form onSubmit={handleCalculate} className="space-y-6 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-end">

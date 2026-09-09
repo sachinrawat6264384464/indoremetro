@@ -75,9 +75,9 @@ export function StationSelect({
         />
       </button>
 
-      {/* Floating Popover Dropdown Menu (Wide & Non-truncating) */}
+      {/* Floating Popover Dropdown Menu (Wide & High Z-Index) */}
       {isOpen && (
-        <div className="absolute top-full left-0 min-w-full sm:min-w-[340px] max-w-[420px] mt-2 z-50 bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute top-full left-0 min-w-full sm:min-w-[340px] max-w-[420px] mt-2 z-[100] bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
           {/* Search Bar */}
           <div className="p-3 border-b border-slate-100 bg-slate-50/90">
             <div className="relative">
@@ -94,7 +94,7 @@ export function StationSelect({
           </div>
 
           {/* Options List */}
-          <div className="max-h-64 overflow-y-auto divide-y divide-slate-100 p-1.5">
+          <div className="max-h-56 overflow-y-auto divide-y divide-slate-100 p-1.5">
             {filteredStations.length === 0 ? (
               <div className="p-4 text-center text-xs font-bold text-slate-400">
                 No matching stations found

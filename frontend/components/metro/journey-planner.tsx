@@ -80,8 +80,8 @@ export default function JourneyPlannerWidget() {
   const destStation = stations.find((s) => s.id === destId);
 
   return (
-    <div className="w-full bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl space-y-8 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-72 h-72 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="w-full bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl space-y-8 relative">
+      <div className="absolute top-0 right-0 w-72 h-72 bg-amber-500/5 rounded-full blur-3xl pointer-events-none rounded-r-3xl" />
 
       {/* Header Widget Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 relative z-10">
