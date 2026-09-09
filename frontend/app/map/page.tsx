@@ -12,6 +12,8 @@ import { MapSidebar } from "@/components/metro-map/MapSidebar";
 import { JourneyDrawer } from "@/components/metro-map/JourneyDrawer";
 import { toast } from "sonner";
 
+import { FALLBACK_STATIONS } from "@/lib/data/fallback-stations";
+
 export default function InteractiveMapPage() {
   const [geoJsonData, setGeoJsonData] = useState<GeoJSONCollection | null>(null);
   const [stats, setStats] = useState<MetroStatistics | null>(null);
@@ -35,14 +37,17 @@ export default function InteractiveMapPage() {
 
       if (geoRes.success && geoRes.data) setGeoJsonData(geoRes.data);
       if (statsRes.success && statsRes.data) setStats(statsRes.data);
-      if (stationsRes.success && stationsRes.data && stationsRes.data.length > 0) {
-        setStations(stationsRes.data);
-        const first = stationsRes.data[0].id;
-        const last = stationsRes.data[stationsRes.data.length - 1].id;
-        setSourceId(first);
-        setDestId(first !== last ? last : (stationsRes.data[1]?.id || first));
-        setSelectedStation(stationsRes.data[0]);
-      }
+
+      const activeStations = (stationsRes.success && stationsRes.data && stationsRes.data.length > 0)
+        ? stationsRes.data
+        : FALLBACK_STATIONS;
+
+      setStations(activeStations);
+      const first = activeStations[0].id;
+      const last = activeStations[activeStations.length - 1].id;
+      setSourceId(first);
+      setDestId(first !== last ? last : (activeStations[1]?.id || first));
+      setSelectedStation(activeStations[0]);
     }
 
     initMapData();

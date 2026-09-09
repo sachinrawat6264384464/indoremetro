@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, MapPin, Building2, Train } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { Station } from "@/types";
+import { FALLBACK_STATIONS } from "@/lib/data/fallback-stations";
 
 export default function StationsPage() {
   const [stations, setStations] = useState<Station[]>([]);
@@ -16,8 +17,10 @@ export default function StationsPage() {
       setLoading(true);
       const res = await apiFetch<Station[]>("/stations");
       setLoading(false);
-      if (res.success && res.data) {
+      if (res.success && res.data && res.data.length > 0) {
         setStations(res.data);
+      } else {
+        setStations(FALLBACK_STATIONS);
       }
     }
     fetchStations();
@@ -39,7 +42,7 @@ export default function StationsPage() {
               <Train className="w-3.5 h-3.5 text-amber-600" /> MPMRCL Station Directory
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Metro Station Directory</h1>
-            <p className="text-slate-600 text-sm mt-1">Explore all operational &amp; planned Indore Metro Yellow Line 3 stations</p>
+            <p className="text-slate-600 text-sm mt-1 font-medium">Explore all {stations.length > 0 ? stations.length : 16} operational &amp; planned Indore Metro Yellow Line stations</p>
           </div>
 
           <div className="relative w-full md:w-80">

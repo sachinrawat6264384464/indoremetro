@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Navigation, ArrowRightLeft, Sparkles, Clock, Ticket, CheckCircle2 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { Station, JourneyPlan } from "@/types";
+import { FALLBACK_STATIONS } from "@/lib/data/fallback-stations";
 
 export default function JourneyPlannerWidget() {
   const router = useRouter();
@@ -18,12 +19,11 @@ export default function JourneyPlannerWidget() {
   useEffect(() => {
     async function loadStations() {
       const res = await apiFetch<Station[]>("/stations");
-      if (res.success && res.data) {
-        setStations(res.data);
-        if (res.data.length >= 2) {
-          setSourceId(res.data[0].id);
-          setDestId(res.data[12]?.id || res.data[1].id);
-        }
+      const active = (res.success && res.data && res.data.length > 0) ? res.data : FALLBACK_STATIONS;
+      setStations(active);
+      if (active.length >= 2) {
+        setSourceId(active[0].id);
+        setDestId(active[12]?.id || active[1].id);
       }
     }
     loadStations();

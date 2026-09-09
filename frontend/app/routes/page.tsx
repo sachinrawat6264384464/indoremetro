@@ -4,14 +4,22 @@ import { useEffect, useState } from "react";
 import { Train, ArrowRight } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { Route } from "@/types";
+import { FALLBACK_ROUTES } from "@/lib/data/fallback-stations";
 
 export default function RoutesPage() {
   const [routes, setRoutes] = useState<Route[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadRoutes() {
+      setLoading(true);
       const res = await apiFetch<Route[]>("/routes");
-      if (res.success && res.data) setRoutes(res.data);
+      setLoading(false);
+      if (res.success && res.data && res.data.length > 0) {
+        setRoutes(res.data);
+      } else {
+        setRoutes(FALLBACK_ROUTES);
+      }
     }
     loadRoutes();
   }, []);
