@@ -7,7 +7,23 @@ import JourneyPlannerWidget from "@/components/metro/journey-planner";
 import { LiveTrainTracker } from "@/components/metro/LiveTrainTracker";
 import { CarbonSavingsBadge } from "@/components/metro/CarbonSavingsBadge";
 import { MapZoomModal } from "@/components/metro/MapZoomModal";
-import { Train, ShieldCheck, QrCode, Clock, MapPin, AlertTriangle, ArrowRight, HelpCircle, Activity, ZoomIn, Maximize2 } from "lucide-react";
+import { 
+  Train, 
+  ShieldCheck, 
+  QrCode, 
+  Clock, 
+  MapPin, 
+  AlertTriangle, 
+  ArrowRight, 
+  HelpCircle, 
+  Activity, 
+  ZoomIn, 
+  Maximize2,
+  Layers,
+  Map,
+  Sparkles,
+  Sliders
+} from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { ServiceAlert, Station } from "@/types";
 
@@ -15,6 +31,8 @@ export default function HomePage() {
   const [alerts, setAlerts] = useState<ServiceAlert[]>([]);
   const [stations, setStations] = useState<Station[]>([]);
   const [isMapZoomOpen, setIsMapZoomOpen] = useState(false);
+  const [activeMapView, setActiveMapView] = useState<'ALIGNMENT' | 'LOOP'>('ALIGNMENT');
+  const [stationFilter, setStationFilter] = useState<'OPERATIONAL' | 'ALL'>('OPERATIONAL');
 
   useEffect(() => {
     async function loadData() {
@@ -22,10 +40,14 @@ export default function HomePage() {
       if (alertRes.success && alertRes.data) setAlerts(alertRes.data);
 
       const stationRes = await apiFetch<Station[]>("/stations");
-      if (stationRes.success && stationRes.data) setStations(stationRes.data.slice(0, 6));
+      if (stationRes.success && stationRes.data) setStations(stationRes.data);
     }
     loadData();
   }, []);
+
+  const displayedStations = stationFilter === 'OPERATIONAL' 
+    ? stations.slice(0, 6) 
+    : stations;
 
   return (
     <div className="space-y-16 pb-20 bg-[#F8FAFC]">
@@ -59,7 +81,7 @@ export default function HomePage() {
 
           <div className="relative z-20 p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold shadow-sm">
                 <Train className="w-4 h-4 text-amber-600" /> Official MPMRCL Transit Platform
               </div>
 
@@ -135,79 +157,149 @@ export default function HomePage() {
 
       </section>
 
-      {/* Official HD Schematic Yellow Line Map Section (Click to Zoom Lightbox) */}
+      {/* Official HD Schematic Map Section with Modern Segment Toggle Button */}
       <section className="w-full px-4 sm:px-6 lg:px-10">
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-md">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          
+          {/* Header Row with Segment Toggle Switch */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
-              <span className="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Official Project Alignment</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Indore Metro Yellow Line Official Alignment Diagram</h2>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold mb-1">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" /> Interactive Network Diagram
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Indore Metro System Map</h2>
               <p className="text-slate-600 text-sm mt-1">
-                Complete loop alignment detailing Phase I (Trials), Phase II (Elevated Corridor), and Phase III (Underground Corridor to Airport).
+                Toggle between the official Phase Alignment Diagram and the City Ring GIS Map.
               </p>
             </div>
 
-            <button
-              onClick={() => setIsMapZoomOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-md shadow-amber-500/20 shrink-0 transition"
-            >
-              <ZoomIn className="w-4 h-4" /> Open Full HD Lightbox Zoom
-            </button>
+            {/* BADIYA SEGMENTED TOGGLE SWITCH */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200 flex items-center gap-1 shadow-inner">
+                <button
+                  onClick={() => setActiveMapView('ALIGNMENT')}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-300 flex items-center gap-2 ${
+                    activeMapView === 'ALIGNMENT'
+                      ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25 scale-[1.02]'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <Layers className="w-4 h-4" />
+                  <span>Phase Alignment Diagram</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveMapView('LOOP')}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-300 flex items-center gap-2 ${
+                    activeMapView === 'LOOP'
+                      ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25 scale-[1.02]'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <Map className="w-4 h-4" />
+                  <span>City Loop GIS Map</span>
+                </button>
+              </div>
+
+              <button
+                onClick={() => setIsMapZoomOpen(true)}
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs flex items-center gap-2 shadow-sm shrink-0 transition"
+              >
+                <ZoomIn className="w-4 h-4 text-amber-400" /> Full HD Zoom
+              </button>
+            </div>
           </div>
 
-          {/* 2-Column Grid: Alignment Image + Project Data Breakdown */}
+          {/* Dynamic 2-Column Map Content */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Alignment Image Card */}
+            {/* Map Image Viewer Card */}
             <div
               onClick={() => setIsMapZoomOpen(true)}
-              className="lg:col-span-8 relative min-h-[360px] sm:min-h-[420px] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 cursor-pointer group shadow-inner"
+              className="lg:col-span-8 relative min-h-[360px] sm:min-h-[420px] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 cursor-pointer group shadow-inner transition-all duration-300"
             >
               <Image
-                src="/images/indore_metro_alignment_official.png"
-                alt="Indore Metro Official Alignment Diagram & Data Table"
+                src={activeMapView === 'ALIGNMENT' ? '/images/indore_metro_alignment_official.png' : '/images/yellow_line_official_map.png'}
+                alt={activeMapView === 'ALIGNMENT' ? 'Indore Metro Alignment Diagram' : 'Indore Metro Yellow Line Loop Map'}
                 fill
                 className="object-contain p-2 group-hover:scale-[1.02] transition duration-500"
               />
               <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
                 <span className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-extrabold text-sm shadow-2xl flex items-center gap-2">
-                  <Maximize2 className="w-4 h-4 text-amber-600" /> Open Full HD Zoom Lightbox
+                  <Maximize2 className="w-4 h-4 text-amber-600" /> Click to Open HD Lightbox Zoom
                 </span>
+              </div>
+
+              {/* View Badge Overlay */}
+              <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-xl bg-slate-900/80 backdrop-blur-md border border-slate-700 text-white text-xs font-bold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                <span>Showing: {activeMapView === 'ALIGNMENT' ? 'Official Project Alignment Breakdown' : 'Indore Yellow Line City Loop GIS View'}</span>
               </div>
             </div>
 
-            {/* Right Project Data Breakdown Panel */}
+            {/* Right Project / Route Breakdown Panel based on activeMapView */}
             <div className="lg:col-span-4 bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col justify-between space-y-4">
-              <div className="space-y-4">
-                <h3 className="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2">Project Corridor Breakdown</h3>
+              
+              {activeMapView === 'ALIGNMENT' ? (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-amber-600" /> Corridor Phase Breakdown
+                  </h3>
 
-                <div className="space-y-3 text-xs">
-                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-                    <span className="font-bold text-amber-600 block">PHASE I (Priority Corridor)</span>
-                    <p className="text-slate-700 font-semibold">6.3 KM &bull; 05 Stations (Elevated)</p>
-                    <p className="text-slate-500">Train trials commenced 30-Sep-23 (Super Corridor to Bhawarsala)</p>
-                  </div>
+                  <div className="space-y-3 text-xs">
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1 shadow-sm">
+                      <span className="font-bold text-amber-600 block">PHASE I (Priority Corridor)</span>
+                      <p className="text-slate-700 font-semibold">6.3 KM &bull; 05 Stations (Elevated)</p>
+                      <p className="text-slate-500">Train trials commenced 30-Sep-23 (Super Corridor to Bhawarsala)</p>
+                    </div>
 
-                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-                    <span className="font-bold text-emerald-600 block">PHASE II (Operational Extension)</span>
-                    <p className="text-slate-700 font-semibold">10.98 KM &bull; 11 Stations (Elevated)</p>
-                    <p className="text-slate-500">MR 10 Road to Radisson Square &amp; Bengali Chauraha</p>
-                  </div>
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1 shadow-sm">
+                      <span className="font-bold text-emerald-600 block">PHASE II (Operational Extension)</span>
+                      <p className="text-slate-700 font-semibold">10.98 KM &bull; 11 Stations (Elevated)</p>
+                      <p className="text-slate-500">MR 10 Road to Radisson Square &amp; Bengali Chauraha</p>
+                    </div>
 
-                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-                    <span className="font-bold text-sky-600 block">PHASE III (Central &amp; Airport)</span>
-                    <p className="text-slate-700 font-semibold">8.7 KM (07 Stns UG) + 5.34 KM (05 Stns Elevated)</p>
-                    <p className="text-slate-500">Tenders &amp; contracts awarded (Rajwada to Airport)</p>
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1 shadow-sm">
+                      <span className="font-bold text-sky-600 block">PHASE III (Central &amp; Airport)</span>
+                      <p className="text-slate-700 font-semibold">8.7 KM (07 Stns UG) + 5.34 KM (05 Stns Elevated)</p>
+                      <p className="text-slate-500">Tenders awarded (Rajwada, Bada Ganpati to Airport)</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
+                    <Map className="w-4 h-4 text-amber-600" /> Ring Loop Key Highlights
+                  </h3>
+
+                  <div className="space-y-3 text-xs">
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1 shadow-sm">
+                      <span className="font-bold text-amber-600 block">Indore Airport Connectivity</span>
+                      <p className="text-slate-700 font-semibold">Underground Direct Terminal Access</p>
+                      <p className="text-slate-500">Seamless transit link to Devi Ahilya Bai Holkar Airport.</p>
+                    </div>
+
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1 shadow-sm">
+                      <span className="font-bold text-emerald-600 block">Super Corridor Depot &amp; Hub</span>
+                      <p className="text-slate-700 font-semibold">Primary Maintenance &amp; Stabling</p>
+                      <p className="text-slate-500">High-tech maintenance depot &amp; operational control center.</p>
+                    </div>
+
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-1 shadow-sm">
+                      <span className="font-bold text-purple-600 block">Rajwada Central Interchange</span>
+                      <p className="text-slate-700 font-semibold">Heritage City Center Station</p>
+                      <p className="text-slate-500">Deep underground station connecting historical market hub.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="pt-2 border-t border-slate-200">
                 <button
                   onClick={() => setIsMapZoomOpen(true)}
                   className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-sm transition"
                 >
-                  <ZoomIn className="w-4 h-4 text-amber-400" /> Click Diagram to Zoom HD
+                  <ZoomIn className="w-4 h-4 text-amber-400" /> Click to Inspect in Full HD Lightbox
                 </button>
               </div>
             </div>
@@ -261,20 +353,50 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Popular Stations Preview */}
+      {/* Popular Stations Preview Section with BADIYA FILTER TOGGLE */}
       <section className="w-full px-4 sm:px-6 lg:px-10">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">Popular Metro Stations</h2>
-            <p className="text-xs text-slate-500">Priority Corridor Line 3 Stations</p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Popular Metro Stations</h2>
+            <p className="text-xs text-slate-500 mt-0.5">Explore operational priority corridor &amp; future line 3 stations</p>
           </div>
-          <Link href="/stations" className="text-sm font-semibold text-amber-600 hover:text-amber-700 flex items-center gap-1">
-            View All 16 Stations <ArrowRight className="w-4 h-4" />
-          </Link>
+
+          {/* BADIYA STATION FILTER TOGGLE BUTTON */}
+          <div className="flex items-center gap-3">
+            <div className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200 flex items-center gap-1 shadow-inner">
+              <button
+                onClick={() => setStationFilter('OPERATIONAL')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 ${
+                  stationFilter === 'OPERATIONAL'
+                    ? 'bg-amber-500 text-slate-950 shadow-sm font-extrabold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Operational (16)</span>
+              </button>
+
+              <button
+                onClick={() => setStationFilter('ALL')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 ${
+                  stationFilter === 'ALL'
+                    ? 'bg-amber-500 text-slate-950 shadow-sm font-extrabold'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <Sliders className="w-3.5 h-3.5 text-slate-700" />
+                <span>Show All (29)</span>
+              </button>
+            </div>
+
+            <Link href="/stations" className="text-sm font-semibold text-amber-600 hover:text-amber-700 flex items-center gap-1 shrink-0">
+              View All <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stations.map((st) => (
+          {displayedStations.map((st) => (
             <Link
               key={st.id}
               href={`/stations/${st.id}`}
@@ -337,7 +459,11 @@ export default function HomePage() {
       </section>
 
       {/* Map Lightbox Zoom Modal Component */}
-      <MapZoomModal isOpen={isMapZoomOpen} onClose={() => setIsMapZoomOpen(false)} />
+      <MapZoomModal 
+        isOpen={isMapZoomOpen} 
+        onClose={() => setIsMapZoomOpen(false)} 
+        imageSrc={activeMapView === 'ALIGNMENT' ? '/images/indore_metro_alignment_official.png' : '/images/yellow_line_official_map.png'}
+      />
 
     </div>
   );
