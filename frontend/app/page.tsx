@@ -82,17 +82,21 @@ export default function HomePage() {
               </div>
 
               {/* Quick Stats Grid */}
-              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-800/80">
                 <div>
-                  <span className="text-2xl sm:text-3xl font-black text-white">16</span>
-                  <p className="text-xs text-slate-400 font-medium">Active Stations</p>
+                  <span className="text-2xl sm:text-3xl font-black text-white">29</span>
+                  <p className="text-xs text-slate-400 font-medium">Total Stations</p>
+                </div>
+                <div>
+                  <span className="text-2xl sm:text-3xl font-black text-emerald-400">16</span>
+                  <p className="text-xs text-slate-400 font-medium">Active Operational</p>
                 </div>
                 <div>
                   <span className="text-2xl sm:text-3xl font-black text-amber-400">31.46 km</span>
-                  <p className="text-xs text-slate-400 font-medium">Yellow Line Corridor</p>
+                  <p className="text-xs text-slate-400 font-medium">Yellow Line Loop</p>
                 </div>
                 <div>
-                  <span className="text-2xl sm:text-3xl font-black text-emerald-400">7 Mins</span>
+                  <span className="text-2xl sm:text-3xl font-black text-cyan-400">7 Mins</span>
                   <p className="text-xs text-slate-400 font-medium">Peak Frequency</p>
                 </div>
               </div>
