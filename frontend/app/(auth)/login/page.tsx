@@ -39,19 +39,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16">
-      <div className="glass-panel p-8 rounded-3xl border border-white/10 space-y-6 shadow-2xl">
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl metro-gradient-bg mx-auto flex items-center justify-center text-white shadow-lg">
-            <Train className="w-6 h-6" />
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md bg-white border border-slate-200 p-8 sm:p-10 rounded-3xl space-y-6 shadow-2xl">
+        <div className="text-center space-y-3">
+          <div className="w-14 h-14 rounded-2xl bg-amber-500 text-slate-950 font-black mx-auto flex items-center justify-center shadow-lg shadow-amber-500/20">
+            <Train className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-bold text-white">Sign In to Indore Metro</h1>
-          <p className="text-xs text-slate-400">Access your digital QR tickets & journey history</p>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Sign In to Indore Metro</h1>
+          <p className="text-xs text-slate-600 font-medium">Access your digital QR tickets &amp; passenger account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-300 uppercase">Email Address</label>
+          <div className="space-y-1.5">
+            <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">Email Address</label>
             <div className="relative">
               <input
                 type="email"
@@ -59,14 +59,14 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="passenger@indoremetro.gov.in"
-                className="w-full h-11 pl-10 pr-4 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white focus:outline-none focus:border-teal-500 text-sm"
+                className="w-full h-12 pl-10 pr-4 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white text-sm font-semibold shadow-sm transition"
               />
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-4" />
             </div>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-300 uppercase">Password</label>
+          <div className="space-y-1.5">
+            <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">Password</label>
             <div className="relative">
               <input
                 type="password"
@@ -74,29 +74,33 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full h-11 pl-10 pr-4 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white focus:outline-none focus:border-teal-500 text-sm"
+                className="w-full h-12 pl-10 pr-4 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white text-sm font-semibold shadow-sm transition"
               />
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-4" />
             </div>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-11 rounded-xl metro-gradient-bg text-white font-bold flex items-center justify-center gap-2 hover:opacity-90 transition disabled:opacity-50"
+            className="w-full h-12 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-md shadow-amber-500/20 transition disabled:opacity-50 mt-2"
           >
-            {loading ? "Authenticating..." : "Sign In"}
+            {loading ? "Authenticating..." : "Sign In &rarr;"}
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-400 space-y-2 pt-4 border-t border-white/10">
+        <div className="text-center text-xs text-slate-600 space-y-2 pt-4 border-t border-slate-100 font-medium">
           <p>
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-teal-400 font-semibold hover:underline">
+            <Link href="/signup" className="text-amber-600 font-extrabold hover:underline">
               Create Account
             </Link>
           </p>
-          <p className="text-slate-500">Demo Admin: admin@indoremetro.gov.in / Admin@123456</p>
+          <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200/80 text-[11px] text-amber-900 font-semibold space-y-0.5">
+            <p className="font-extrabold">Demo Passenger / Admin Credentials:</p>
+            <p>Admin: admin@indoremetro.gov.in / Admin@123456</p>
+            <p>User: passenger@indoremetro.gov.in / User@123456</p>
+          </div>
         </div>
       </div>
     </div>

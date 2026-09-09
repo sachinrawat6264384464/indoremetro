@@ -17,14 +17,14 @@ export default function AdminTicketsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-extrabold text-white">Ticket Audit & Transactions</h1>
-        <p className="text-slate-400 text-sm mt-1">Audit all passenger digital tickets and booking states</p>
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Ticket Audit & Transactions</h1>
+        <p className="text-slate-500 text-sm font-medium mt-1">Audit all passenger digital tickets and booking states</p>
       </div>
 
-      <div className="glass-panel rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+      <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900/90 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-white/10">
+          <table className="w-full text-left text-sm text-slate-700">
+            <thead className="bg-slate-50 text-xs font-black text-slate-500 uppercase tracking-wider border-b border-slate-200">
               <tr>
                 <th className="py-4 px-6">Ticket Number</th>
                 <th className="py-4 px-6">User Email</th>
@@ -34,19 +34,19 @@ export default function AdminTicketsPage() {
                 <th className="py-4 px-6">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-slate-100 font-medium">
               {tickets.map((t) => (
-                <tr key={t.id} className="hover:bg-white/5 transition">
-                  <td className="py-4 px-6 font-mono font-bold text-amber-400">{t.ticket_number}</td>
-                  <td className="py-4 px-6 text-slate-300">{t.user_email}</td>
-                  <td className="py-4 px-6 font-semibold text-white">{t.source_station} &rarr; {t.dest_station}</td>
-                  <td className="py-4 px-6">{t.passenger_count}</td>
-                  <td className="py-4 px-6 text-teal-400 font-bold">₹{t.total_fare}</td>
+                <tr key={t.id} className="hover:bg-slate-50/80 transition">
+                  <td className="py-4 px-6 font-mono font-black text-amber-600">{t.ticket_number}</td>
+                  <td className="py-4 px-6 text-slate-600 font-medium">{t.user_email}</td>
+                  <td className="py-4 px-6 font-extrabold text-slate-900">{t.source_station} &rarr; {t.dest_station}</td>
+                  <td className="py-4 px-6 font-extrabold text-slate-900">{t.passenger_count}</td>
+                  <td className="py-4 px-6 text-emerald-700 font-black">₹{t.total_fare}</td>
                   <td className="py-4 px-6">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                      t.status === "CONFIRMED" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" :
-                      t.status === "USED" ? "bg-slate-500/10 text-slate-400 border border-slate-500/20" :
-                      "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                    <span className={`px-3 py-1 rounded-full text-xs font-extrabold ${
+                      t.status === "CONFIRMED" ? "bg-emerald-100 text-emerald-800 border border-emerald-300" :
+                      t.status === "USED" ? "bg-slate-100 text-slate-700 border border-slate-300" :
+                      "bg-rose-100 text-rose-800 border border-rose-300"
                     }`}>
                       {t.status}
                     </span>

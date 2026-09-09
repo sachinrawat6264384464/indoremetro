@@ -85,22 +85,22 @@ export default function AdminAnalyticsPage() {
           </CardHeader>
           <CardContent>
             {loading ? (
-              <p className="text-slate-400 py-6 text-center">Loading analytics...</p>
+              <p className="text-slate-500 font-semibold py-6 text-center">Loading analytics...</p>
             ) : (
               <div className="space-y-4">
                 {metrics?.popular_stations?.map((st, i) => (
                   <div key={i} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="w-6 h-6 rounded-full bg-amber-500/10 text-amber-400 font-bold text-xs flex items-center justify-center">
+                      <span className="w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center shadow-sm">
                         {i + 1}
                       </span>
-                      <span className="font-semibold text-slate-200">{st.name}</span>
+                      <span className="font-extrabold text-slate-900">{st.name}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-400 font-mono">
+                      <span className="text-xs text-slate-500 font-bold font-mono">
                         {st.bookings} bookings
                       </span>
-                      <div className="w-24 bg-slate-800 rounded-full h-2 overflow-hidden">
+                      <div className="w-24 bg-slate-100 rounded-full h-2.5 overflow-hidden">
                         <div
                           className="bg-amber-500 h-full rounded-full"
                           style={{
@@ -120,23 +120,23 @@ export default function AdminAnalyticsPage() {
           <CardHeader>
             <CardTitle>System Operational Health</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm text-slate-300">
-            <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
+          <CardContent className="space-y-4 text-sm text-slate-700 font-medium">
+            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
               <div>
-                <p className="font-bold text-emerald-400">Active Stations</p>
-                <p className="text-xs text-slate-400">All turnstiles & QR validators live</p>
+                <p className="font-extrabold text-emerald-900">Active Stations</p>
+                <p className="text-xs text-slate-500 font-medium">All turnstiles & QR validators live</p>
               </div>
-              <span className="text-2xl font-extrabold text-emerald-400">
+              <span className="text-2xl font-black text-emerald-700">
                 {metrics?.active_stations || 12} / 12
               </span>
             </div>
 
-            <div className="p-4 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-between">
               <div>
-                <p className="font-bold text-sky-400">Registered Users</p>
-                <p className="text-xs text-slate-400">Total mobile & web accounts</p>
+                <p className="font-extrabold text-sky-900">Registered Users</p>
+                <p className="text-xs text-slate-500 font-medium">Total mobile & web accounts</p>
               </div>
-              <span className="text-2xl font-extrabold text-sky-400">
+              <span className="text-2xl font-black text-sky-700">
                 {metrics?.total_users || 0}
               </span>
             </div>

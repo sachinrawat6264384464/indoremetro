@@ -24,13 +24,13 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <aside className="w-64 glass-panel border-r border-white/10 p-4 space-y-6 min-h-screen shrink-0">
-      <div className="px-3 py-2 border-b border-white/10">
-        <span className="text-xs font-bold text-amber-400 uppercase tracking-widest block">Operational Admin</span>
-        <h2 className="text-lg font-bold text-white">Indore Metro HQ</h2>
+    <aside className="w-64 bg-white border-r border-slate-200 p-5 space-y-6 min-h-screen shrink-0 shadow-sm">
+      <div className="px-3 py-3 border-b border-slate-100 bg-slate-50/80 rounded-2xl">
+        <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest block">Operational Admin</span>
+        <h2 className="text-lg font-black text-slate-900 tracking-tight">Indore Metro HQ</h2>
       </div>
 
-      <nav className="space-y-1">
+      <nav className="space-y-1.5">
         {links.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -38,13 +38,13 @@ export default function AdminSidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition ${
+              className={`flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all ${
                 isActive
-                  ? "bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold"
-                  : "text-slate-300 hover:text-white hover:bg-white/5"
+                  ? "bg-amber-500 text-slate-950 shadow-md font-black translate-x-1"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/80"
               }`}
             >
-              <Icon className="w-4 h-4 text-amber-400" />
+              <Icon className={`w-4 h-4 ${isActive ? "text-slate-950" : "text-amber-500"}`} />
               {item.label}
             </Link>
           );

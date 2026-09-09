@@ -17,53 +17,65 @@ export default function AdminDashboardPage() {
   }, []);
 
   if (!metrics) {
-    return <div className="text-center py-20 text-slate-400">Loading admin metrics...</div>;
+    return (
+      <div className="flex items-center justify-center py-20 text-slate-500 font-semibold">
+        Loading admin metrics...
+      </div>
+    );
   }
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-extrabold text-white">System Operations Overview</h1>
-        <p className="text-slate-400 text-sm mt-1">Real-time metrics from database transactions & passenger bookings.</p>
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight">System Operations Overview</h1>
+        <p className="text-slate-500 text-sm font-medium mt-1">Real-time metrics from database transactions & passenger bookings.</p>
       </div>
 
       {/* Metrics Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-2">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs uppercase tracking-wider font-semibold">Total Revenue</span>
-            <CreditCard className="w-5 h-5 text-emerald-400" />
+        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs uppercase tracking-wider font-extrabold text-slate-400">Total Revenue</span>
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <CreditCard className="w-5 h-5" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-white">₹{metrics.total_revenue.toLocaleString()}</p>
-          <p className="text-xs text-emerald-400 font-medium">Today: ₹{metrics.today_revenue.toLocaleString()}</p>
+          <p className="text-3xl font-black text-slate-900">₹{metrics.total_revenue.toLocaleString()}</p>
+          <p className="text-xs text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-md inline-block">Today: ₹{metrics.today_revenue.toLocaleString()}</p>
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-2">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs uppercase tracking-wider font-semibold">Total Tickets</span>
-            <Ticket className="w-5 h-5 text-amber-400" />
+        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs uppercase tracking-wider font-extrabold text-slate-400">Total Tickets</span>
+            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <Ticket className="w-5 h-5" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-white">{metrics.total_tickets.toLocaleString()}</p>
-          <p className="text-xs text-amber-300 font-medium">Today: {metrics.today_tickets} issued</p>
+          <p className="text-3xl font-black text-slate-900">{metrics.total_tickets.toLocaleString()}</p>
+          <p className="text-xs text-amber-800 font-bold bg-amber-50 px-2.5 py-1 rounded-md inline-block">Today: {metrics.today_tickets} issued</p>
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-2">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs uppercase tracking-wider font-semibold">Registered Users</span>
-            <Users className="w-5 h-5 text-teal-400" />
+        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs uppercase tracking-wider font-extrabold text-slate-400">Registered Users</span>
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <Users className="w-5 h-5" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-white">{metrics.total_users.toLocaleString()}</p>
-          <p className="text-xs text-slate-400 font-medium">Passenger accounts</p>
+          <p className="text-3xl font-black text-slate-900">{metrics.total_users.toLocaleString()}</p>
+          <p className="text-xs text-slate-500 font-semibold">Passenger accounts</p>
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-2">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs uppercase tracking-wider font-semibold">Active Stations</span>
-            <MapPin className="w-5 h-5 text-cyan-400" />
+        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs uppercase tracking-wider font-extrabold text-slate-400">Active Stations</span>
+            <div className="w-9 h-9 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+              <MapPin className="w-5 h-5" />
+            </div>
           </div>
-          <p className="text-3xl font-black text-white">{metrics.active_stations}</p>
-          <p className="text-xs text-cyan-300 font-medium">Priority Corridor Line 3</p>
+          <p className="text-3xl font-black text-slate-900">{metrics.active_stations}</p>
+          <p className="text-xs text-cyan-800 font-bold bg-cyan-50 px-2.5 py-1 rounded-md inline-block">Priority Corridor Line 3</p>
         </div>
 
       </div>
@@ -71,15 +83,15 @@ export default function AdminDashboardPage() {
       {/* Popular Stations & Payments */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        <div className="lg:col-span-7 glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-amber-400" /> Popular Origin Stations
+        <div className="lg:col-span-7 bg-white p-7 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+          <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-amber-500" /> Popular Origin Stations
           </h3>
           <div className="space-y-3">
             {metrics.popular_stations.map((st, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-white/5">
-                <span className="font-semibold text-white text-sm">#{idx + 1} {st.name}</span>
-                <span className="text-xs font-bold text-teal-400 bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">
+              <div key={idx} className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-amber-200 transition">
+                <span className="font-bold text-slate-900 text-sm">#{idx + 1} {st.name}</span>
+                <span className="text-xs font-extrabold text-amber-900 bg-amber-100 px-3.5 py-1.5 rounded-full border border-amber-200">
                   {st.bookings} Bookings
                 </span>
               </div>
@@ -87,18 +99,18 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        <div className="lg:col-span-5 glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400" /> Payment Gateway Health
+        <div className="lg:col-span-5 bg-white p-7 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+          <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Payment Gateway Health
           </h3>
           <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/20 flex justify-between items-center">
-              <span className="text-sm font-semibold text-emerald-300">Successful Transactions</span>
-              <span className="text-2xl font-black text-emerald-400">{metrics.successful_payments}</span>
+            <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex justify-between items-center">
+              <span className="text-sm font-bold text-emerald-900">Successful Transactions</span>
+              <span className="text-3xl font-black text-emerald-700">{metrics.successful_payments}</span>
             </div>
-            <div className="p-4 rounded-2xl bg-rose-950/40 border border-rose-500/20 flex justify-between items-center">
-              <span className="text-sm font-semibold text-rose-300">Failed / Cancelled</span>
-              <span className="text-2xl font-black text-rose-400">{metrics.failed_payments}</span>
+            <div className="p-5 rounded-2xl bg-rose-50 border border-rose-200/80 flex justify-between items-center">
+              <span className="text-sm font-bold text-rose-900">Failed / Cancelled</span>
+              <span className="text-3xl font-black text-rose-700">{metrics.failed_payments}</span>
             </div>
           </div>
         </div>
