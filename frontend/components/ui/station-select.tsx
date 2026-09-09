@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { MapPin, Search, ChevronDown, Check, Train } from "lucide-react";
+import { MapPin, Search, ChevronDown, Check } from "lucide-react";
 import { Station } from "@/types";
 
 interface StationSelectProps {
@@ -50,24 +50,23 @@ export function StationSelect({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full h-14 px-4 rounded-2xl bg-white border border-slate-300 hover:border-amber-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 text-slate-900 font-extrabold text-sm shadow-sm transition flex items-center justify-between gap-2 text-left cursor-pointer"
+        className="w-full h-14 px-3.5 sm:px-4 rounded-2xl bg-white border border-slate-300 hover:border-amber-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 text-slate-900 font-extrabold text-sm shadow-sm transition flex items-center justify-between gap-2 text-left cursor-pointer"
       >
-        <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <MapPin className={`w-5 h-5 shrink-0 ${iconColor}`} />
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <MapPin className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${iconColor}`} />
           {selectedStation ? (
-            <span className="truncate font-black text-slate-900 text-sm">
-              {selectedStation.name}
-            </span>
+            <div className="flex items-center gap-1.5 min-w-0 flex-1">
+              <span className="truncate font-black text-slate-900 text-sm sm:text-base">
+                {selectedStation.name}
+              </span>
+              <span className="text-[10px] sm:text-xs font-mono font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300 shrink-0">
+                {selectedStation.code}
+              </span>
+            </div>
           ) : (
-            <span className="text-slate-400 font-medium text-sm">{placeholder}</span>
+            <span className="text-slate-400 font-medium text-sm truncate">{placeholder}</span>
           )}
         </div>
-
-        {selectedStation && (
-          <span className="text-xs font-mono font-bold text-amber-900 bg-amber-100 px-2.5 py-1 rounded-md border border-amber-300 shrink-0">
-            {selectedStation.code}
-          </span>
-        )}
 
         <ChevronDown
           className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
@@ -76,26 +75,26 @@ export function StationSelect({
         />
       </button>
 
-      {/* Floating Popover Dropdown Menu */}
+      {/* Floating Popover Dropdown Menu (Wide & Non-truncating) */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute top-full left-0 min-w-full sm:min-w-[340px] max-w-[420px] mt-2 z-50 bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
           {/* Search Bar */}
-          <div className="p-3 border-b border-slate-100 bg-slate-50/80">
+          <div className="p-3 border-b border-slate-100 bg-slate-50/90">
             <div className="relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
                 type="text"
                 autoFocus
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search station or code (e.g. ST01)..."
-                className="w-full h-10 pl-9 pr-3 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs font-bold focus:outline-none focus:border-amber-500 shadow-inner"
+                placeholder="Search station or code (e.g. Palasia, ST01)..."
+                className="w-full h-10 pl-9 pr-3 rounded-xl bg-white border border-slate-300 text-slate-900 text-xs font-bold focus:outline-none focus:border-amber-500 shadow-inner"
               />
             </div>
           </div>
 
           {/* Options List */}
-          <div className="max-h-60 overflow-y-auto divide-y divide-slate-100 p-1">
+          <div className="max-h-64 overflow-y-auto divide-y divide-slate-100 p-1.5">
             {filteredStations.length === 0 ? (
               <div className="p-4 text-center text-xs font-bold text-slate-400">
                 No matching stations found
@@ -112,19 +111,21 @@ export function StationSelect({
                       setIsOpen(false);
                       setSearch("");
                     }}
-                    className={`w-full px-3.5 py-3 rounded-xl text-left text-xs flex items-center justify-between gap-3 transition ${
+                    className={`w-full px-4 py-3 rounded-xl text-left text-xs sm:text-sm flex items-center justify-between gap-3 transition ${
                       isSelected
-                        ? "bg-amber-50 text-amber-950 font-black border border-amber-200"
+                        ? "bg-amber-50 text-amber-950 font-black border border-amber-300 shadow-sm"
                         : "hover:bg-slate-100/80 text-slate-800 font-bold"
                     }`}
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div className={`w-2 h-2 rounded-full shrink-0 ${isSelected ? "bg-amber-500" : "bg-slate-300"}`} />
-                      <span className="truncate">{st.name}</span>
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                      <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${isSelected ? "bg-amber-500" : "bg-slate-300"}`} />
+                      <span className="font-extrabold text-slate-900 leading-snug">
+                        {st.name}
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="font-mono text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                      <span className="font-mono text-[11px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
                         {st.code}
                       </span>
                       {isSelected && <Check className="w-4 h-4 text-amber-600 stroke-[3]" />}

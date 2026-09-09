@@ -127,12 +127,12 @@ export default function JourneyPlannerWidget() {
 
       {/* Selection Form */}
       <form onSubmit={handlePlan} className="space-y-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
           
           {/* Source Station Card */}
-          <div className="md:col-span-5 space-y-2 bg-slate-50/80 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 transition">
+          <div className="md:col-span-5 space-y-2 bg-slate-50/80 p-3.5 sm:p-4 rounded-2xl border border-slate-200 hover:border-amber-300 transition">
             <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-emerald-600" /> Origin Station
+              <MapPin className="w-4 h-4 text-emerald-600 shrink-0" /> Origin Station
             </label>
             <StationSelect
               stations={stations}
@@ -144,21 +144,22 @@ export default function JourneyPlannerWidget() {
           </div>
 
           {/* Swap Button */}
-          <div className="md:col-span-1 flex justify-center py-2 md:py-0">
+          <div className="md:col-span-2 flex justify-center py-2 md:py-0">
             <button
               type="button"
               onClick={handleSwap}
-              className="w-12 h-12 rounded-2xl bg-amber-100 hover:bg-amber-500 text-amber-900 hover:text-slate-950 border border-amber-300 flex items-center justify-center shadow-md transition transform hover:rotate-180 duration-300"
+              className="px-4 py-2.5 rounded-2xl bg-amber-100 hover:bg-amber-500 text-amber-900 hover:text-slate-950 border border-amber-300 flex items-center gap-2 shadow-md transition font-extrabold text-xs"
               title="Swap origin and destination"
             >
-              <ArrowRightLeft className="w-5 h-5" />
+              <ArrowRightLeft className="w-4 h-4" />
+              <span className="hidden lg:inline">Swap</span>
             </button>
           </div>
 
           {/* Destination Station Card */}
-          <div className="md:col-span-5 space-y-2 bg-slate-50/80 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 transition">
+          <div className="md:col-span-5 space-y-2 bg-slate-50/80 p-3.5 sm:p-4 rounded-2xl border border-slate-200 hover:border-amber-300 transition">
             <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-rose-600" /> Destination Station
+              <MapPin className="w-4 h-4 text-rose-600 shrink-0" /> Destination Station
             </label>
             <StationSelect
               stations={stations}
