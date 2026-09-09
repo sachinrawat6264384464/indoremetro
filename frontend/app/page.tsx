@@ -314,7 +314,7 @@ export default function HomePage() {
           
           <div className="lg:col-span-5 relative h-72 sm:h-80 rounded-2xl overflow-hidden border border-slate-200 shadow-md">
             <Image
-              src="/images/{3029DCFD-7960-48FC-A5E7-CD1301682249}.png"
+              src="/images/indore_metro_train_front.png"
               alt="Indore Metro Official Fleet Profile"
               fill
               className="object-cover object-center"
