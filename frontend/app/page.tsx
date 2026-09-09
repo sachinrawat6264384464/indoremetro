@@ -140,10 +140,10 @@ export default function HomePage() {
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-md">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
-              <span className="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Official Route Network</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Indore Metro Yellow Line Official HD Map</h2>
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Official Project Alignment</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Indore Metro Yellow Line Official Alignment Diagram</h2>
               <p className="text-slate-600 text-sm mt-1">
-                Schematic alignment showing Phase 1 (Trials on Sep-23), Phase 2 (11 Elevated Stations), and Phase 3 (Underground &amp; Airport Corridor).
+                Complete loop alignment detailing Phase I (Trials), Phase II (Elevated Corridor), and Phase III (Underground Corridor to Airport).
               </p>
             </div>
 
@@ -151,26 +151,67 @@ export default function HomePage() {
               onClick={() => setIsMapZoomOpen(true)}
               className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-md shadow-amber-500/20 shrink-0 transition"
             >
-              <ZoomIn className="w-4 h-4" /> Click to Zoom HD Map
+              <ZoomIn className="w-4 h-4" /> Open Full HD Lightbox Zoom
             </button>
           </div>
 
-          {/* Interactive Map Preview Card */}
-          <div
-            onClick={() => setIsMapZoomOpen(true)}
-            className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 cursor-pointer group shadow-inner"
-          >
-            <Image
-              src="/images/yellow_line_official_map.png"
-              alt="Official Indore Metro Yellow Line Map"
-              fill
-              className="object-contain p-4 group-hover:scale-105 transition duration-500"
-            />
-            <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
-              <span className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-extrabold text-sm shadow-2xl flex items-center gap-2">
-                <Maximize2 className="w-4 h-4 text-amber-600" /> Open HD Map Lightbox Zoom
-              </span>
+          {/* 2-Column Grid: Alignment Image + Project Data Breakdown */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            
+            {/* Alignment Image Card */}
+            <div
+              onClick={() => setIsMapZoomOpen(true)}
+              className="lg:col-span-8 relative min-h-[360px] sm:min-h-[420px] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 cursor-pointer group shadow-inner"
+            >
+              <Image
+                src="/images/indore_metro_alignment_official.png"
+                alt="Indore Metro Official Alignment Diagram & Data Table"
+                fill
+                className="object-contain p-2 group-hover:scale-[1.02] transition duration-500"
+              />
+              <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
+                <span className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-extrabold text-sm shadow-2xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-amber-600" /> Open Full HD Zoom Lightbox
+                </span>
+              </div>
             </div>
+
+            {/* Right Project Data Breakdown Panel */}
+            <div className="lg:col-span-4 bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col justify-between space-y-4">
+              <div className="space-y-4">
+                <h3 className="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2">Project Corridor Breakdown</h3>
+
+                <div className="space-y-3 text-xs">
+                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                    <span className="font-bold text-amber-600 block">PHASE I (Priority Corridor)</span>
+                    <p className="text-slate-700 font-semibold">6.3 KM &bull; 05 Stations (Elevated)</p>
+                    <p className="text-slate-500">Train trials commenced 30-Sep-23 (Super Corridor to Bhawarsala)</p>
+                  </div>
+
+                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                    <span className="font-bold text-emerald-600 block">PHASE II (Operational Extension)</span>
+                    <p className="text-slate-700 font-semibold">10.98 KM &bull; 11 Stations (Elevated)</p>
+                    <p className="text-slate-500">MR 10 Road to Radisson Square &amp; Bengali Chauraha</p>
+                  </div>
+
+                  <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                    <span className="font-bold text-sky-600 block">PHASE III (Central &amp; Airport)</span>
+                    <p className="text-slate-700 font-semibold">8.7 KM (07 Stns UG) + 5.34 KM (05 Stns Elevated)</p>
+                    <p className="text-slate-500">Tenders &amp; contracts awarded (Rajwada to Airport)</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-slate-200">
+                <button
+                  onClick={() => setIsMapZoomOpen(true)}
+                  className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-sm transition"
+                >
+                  <ZoomIn className="w-4 h-4 text-amber-400" /> Click Diagram to Zoom HD
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
