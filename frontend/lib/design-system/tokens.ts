@@ -1,31 +1,27 @@
-// Indore Metro Strict Official 3-Color Design Tokens
-// Palette extracted directly from Official Indore Metro Yellow-Navy-Silver Train Livery
+// Indore Metro Official Clean White & Yellow Theme Tokens
 
 export const tokens = {
   colors: {
-    // 1. Primary Brand Accent: Indore Metro Train Yellow (#F59E0B, #FBBF24, #EAB308)
+    // Primary Brand Accent: Indore Metro Yellow (#F59E0B, #D97706)
     yellow: {
       primary: '#F59E0B',
-      bright: '#FBBF24',
-      amber: '#EAB308',
-      badgeBg: 'rgba(245, 158, 11, 0.15)',
-      badgeText: '#FBBF24',
-      badgeBorder: 'rgba(245, 158, 11, 0.3)',
-      glow: 'rgba(245, 158, 11, 0.25)',
+      hover: '#D97706',
+      badgeBg: '#FEF3C7',
+      badgeText: '#92400E',
+      badgeBorder: '#FDE68A',
     },
-    // 2. Base Dark Theme: Deep Navy & Midnight Charcoal (#070A12, #0F172A, #1E293B)
-    navy: {
-      dark: '#070A12',
-      panel: '#0F172A',
-      border: '#1E293B',
-      card: 'rgba(15, 23, 42, 0.7)',
+    // Background & Surface: Clean White & Light Grey (#FFFFFF, #F8FAFC, #F1F5F9)
+    surface: {
+      bg: '#F8FAFC',
+      card: '#FFFFFF',
+      border: '#E2E8F0',
+      header: 'rgba(255, 255, 255, 0.95)',
     },
-    // 3. Metallic Silver & Crisp Light Text (#F8FAFC, #CBD5E1, #94A3B8)
-    silver: {
-      light: '#F8FAFC',
-      textMuted: '#CBD5E1',
-      subtext: '#94A3B8',
-      borderSubtle: 'rgba(226, 232, 240, 0.1)',
+    // Text Hierarchy: Deep Navy & Slate (#0F172A, #334155, #64748B)
+    text: {
+      heading: '#0F172A',
+      body: '#334155',
+      muted: '#64748B',
     },
   },
   typography: {

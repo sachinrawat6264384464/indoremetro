@@ -57,30 +57,30 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-[#070A12]/85 backdrop-blur-xl border-b border-slate-800/80 shadow-2xl">
-        {/* Top subtle ambient glow line */}
-        <div className="h-[2px] w-full bg-gradient-to-r from-teal-500 via-amber-400 to-sky-500" />
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm">
+        {/* Top official metro yellow accent bar */}
+        <div className="h-[3px] w-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400" />
 
         <div className="w-full px-4 sm:px-6 lg:px-10">
           <div className="flex items-center justify-between h-16 sm:h-20">
             
             {/* Brand Logo */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-all duration-300">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-amber-500 flex items-center justify-center shadow-md shadow-amber-500/20 group-hover:scale-105 transition-all duration-300">
                 <Train className="w-5 h-5 sm:w-6 sm:h-6 text-slate-950 stroke-[2.5]" />
               </div>
               <div>
-                <div className="font-extrabold text-lg sm:text-xl tracking-tight text-white flex items-center gap-1.5 leading-none">
-                  INDORE <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-teal-300 bg-clip-text text-transparent">METRO</span>
+                <div className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5 leading-none">
+                  INDORE <span className="text-amber-500">METRO</span>
                 </div>
-                <p className="text-[10px] text-amber-400/90 font-semibold tracking-widest uppercase mt-0.5">
+                <p className="text-[10px] text-amber-600 font-bold tracking-widest uppercase mt-0.5">
                   MPMRCL Official Platform
                 </p>
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden xl:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-slate-800/80 shadow-inner">
+            <nav className="hidden xl:flex items-center gap-1 bg-slate-100 p-1.5 rounded-full border border-slate-200">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
@@ -88,13 +88,13 @@ export default function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 ${
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-1.5 ${
                       isActive
-                        ? "bg-gradient-to-r from-amber-500/20 to-amber-500/10 text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-500/10"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                        ? "bg-amber-500 text-slate-950 shadow-sm"
+                        : "text-slate-700 hover:text-slate-950 hover:bg-slate-200/70"
                     }`}
                   >
-                    <Icon className={`w-3.5 h-3.5 ${isActive ? "text-amber-400" : "text-slate-400"}`} />
+                    <Icon className={`w-3.5 h-3.5 ${isActive ? "text-slate-950" : "text-slate-500"}`} />
                     <span>{item.label}</span>
                   </Link>
                 );
@@ -110,13 +110,13 @@ export default function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
                       isActive
-                        ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                        ? "bg-amber-500 text-slate-950"
+                        : "text-slate-700 hover:text-slate-950 hover:bg-slate-100"
                     }`}
                   >
-                    <Icon className="w-3.5 h-3.5 text-amber-400" />
+                    <Icon className="w-3.5 h-3.5 text-amber-600" />
                     <span>{item.label}</span>
                   </Link>
                 );
@@ -128,12 +128,12 @@ export default function Header() {
               {/* Universal Search Trigger */}
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800/80 transition-all text-xs font-medium"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-600 border border-slate-200 transition-all text-xs font-medium"
                 title="Search stations, routes, and help"
               >
-                <Search className="w-3.5 h-3.5 text-slate-400" />
+                <Search className="w-3.5 h-3.5 text-slate-500" />
                 <span className="hidden xl:inline">Search...</span>
-                <kbd className="px-1.5 py-0.5 text-[10px] bg-slate-800 border border-slate-700 rounded text-slate-400">
+                <kbd className="px-1.5 py-0.5 text-[10px] bg-white border border-slate-300 rounded text-slate-500 font-mono">
                   Ctrl K
                 </kbd>
               </button>
@@ -142,18 +142,18 @@ export default function Header() {
                 <div className="flex items-center gap-2">
                   <Link
                     href="/my-tickets"
-                    className="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 flex items-center gap-2 transition-all shadow-sm"
+                    className="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 flex items-center gap-2 transition-all shadow-sm"
                   >
-                    <Ticket className="w-4 h-4 text-amber-400" />
+                    <Ticket className="w-4 h-4 text-amber-600" />
                     <span>My Tickets</span>
                   </Link>
 
                   {isAdmin && (
                     <Link
                       href="/admin"
-                      className="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-2 transition-all shadow-sm"
+                      className="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-800 border border-amber-500/30 flex items-center gap-2 transition-all shadow-sm"
                     >
-                      <Shield className="w-4 h-4 text-amber-400" />
+                      <Shield className="w-4 h-4 text-amber-600" />
                       <span>Admin</span>
                     </Link>
                   )}
@@ -162,33 +162,33 @@ export default function Header() {
                   <div className="relative">
                     <button
                       onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                      className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-amber-500/50 transition-colors"
+                      className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-100 border border-slate-200 hover:border-amber-500/50 transition-colors"
                     >
-                      <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 font-extrabold flex items-center justify-center text-xs">
+                      <div className="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 font-extrabold flex items-center justify-center text-xs">
                         {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                       </div>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                      <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
                     </button>
 
                     {profileDropdownOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-56 p-2 rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl space-y-1 z-50 animate-fade-in">
-                        <div className="px-3 py-2 border-b border-slate-800">
-                          <p className="text-xs font-bold text-white truncate">{user.name}</p>
-                          <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
+                      <div className="absolute right-0 top-full mt-2 w-56 p-2 rounded-2xl bg-white border border-slate-200 shadow-2xl space-y-1 z-50 animate-fade-in">
+                        <div className="px-3 py-2 border-b border-slate-100">
+                          <p className="text-xs font-bold text-slate-900 truncate">{user.name}</p>
+                          <p className="text-[11px] text-slate-500 truncate">{user.email}</p>
                         </div>
 
                         <Link
                           href="/profile"
                           onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                          className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-slate-700 hover:text-slate-950 hover:bg-slate-100 transition-colors"
                         >
-                          <UserIcon className="w-3.5 h-3.5 text-amber-400" />
+                          <UserIcon className="w-3.5 h-3.5 text-amber-600" />
                           <span>My Profile</span>
                         </Link>
 
                         <button
                           onClick={handleLogout}
-                          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-400 hover:bg-red-500/10 transition-colors text-left"
+                          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-600 hover:bg-red-50 transition-colors text-left font-semibold"
                         >
                           <LogOut className="w-3.5 h-3.5" />
                           <span>Sign Out</span>
@@ -201,13 +201,13 @@ export default function Header() {
                 <div className="flex items-center gap-2">
                   <Link
                     href="/login"
-                    className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all"
+                    className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 hover:bg-slate-100 transition-all"
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/book-ticket"
-                    className="px-4 py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-slate-950 shadow-md shadow-amber-500/20 hover:shadow-amber-500/30 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center gap-1.5"
+                    className="px-4 py-2 rounded-xl text-xs font-extrabold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center gap-1.5"
                   >
                     <Ticket className="w-4 h-4 stroke-[2.5]" />
                     <span>Book Ticket</span>
@@ -220,10 +220,10 @@ export default function Header() {
             <div className="lg:hidden flex items-center gap-2">
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
+                className="p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-950"
                 title="Search"
               >
-                <Search className="w-4 h-4 text-slate-400" />
+                <Search className="w-4 h-4 text-slate-600" />
               </button>
 
               <Link
@@ -235,7 +235,7 @@ export default function Header() {
 
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
+                className="p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-950"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -245,8 +245,8 @@ export default function Header() {
 
         {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-slate-800/80 bg-[#070A12] px-4 pt-3 pb-6 space-y-2 animate-fade-in">
-            <div className="grid grid-cols-2 gap-1.5 pb-3 border-b border-slate-800/80">
+          <div className="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-2 animate-fade-in">
+            <div className="grid grid-cols-2 gap-1.5 pb-3 border-b border-slate-200">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
@@ -257,11 +257,11 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`p-2.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 ${
                       isActive
-                        ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
-                        : "text-slate-300 bg-slate-900/60 border border-slate-800/60"
+                        ? "bg-amber-500 text-slate-950 font-bold"
+                        : "text-slate-700 bg-slate-100 border border-slate-200"
                     }`}
                   >
-                    <Icon className="w-4 h-4 text-amber-400" />
+                    <Icon className="w-4 h-4 text-amber-600" />
                     <span>{item.label}</span>
                   </Link>
                 );
@@ -274,9 +274,9 @@ export default function Header() {
                   <Link
                     href="/my-tickets"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full py-2.5 rounded-xl text-center text-xs font-bold bg-slate-900 text-white border border-slate-800 flex items-center justify-center gap-2"
+                    className="w-full py-2.5 rounded-xl text-center text-xs font-bold bg-slate-100 text-slate-900 border border-slate-200 flex items-center justify-center gap-2"
                   >
-                    <Ticket className="w-4 h-4 text-amber-400" />
+                    <Ticket className="w-4 h-4 text-amber-600" />
                     My Tickets
                   </Link>
 
@@ -284,16 +284,16 @@ export default function Header() {
                     <Link
                       href="/admin"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="w-full py-2.5 rounded-xl text-center text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30 flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-xl text-center text-xs font-bold bg-amber-500/10 text-amber-800 border border-amber-500/30 flex items-center justify-center gap-2"
                     >
-                      <Shield className="w-4 h-4 text-amber-400" />
+                      <Shield className="w-4 h-4 text-amber-600" />
                       Admin Dashboard
                     </Link>
                   )}
 
                   <button
                     onClick={handleLogout}
-                    className="w-full py-2.5 rounded-xl text-center text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20 flex items-center justify-center gap-2"
+                    className="w-full py-2.5 rounded-xl text-center text-xs font-bold bg-red-50 text-red-600 border border-red-200 flex items-center justify-center gap-2"
                   >
                     <LogOut className="w-4 h-4" />
                     Sign Out
@@ -304,7 +304,7 @@ export default function Header() {
                   <Link
                     href="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="py-2.5 rounded-xl text-center text-xs font-bold bg-slate-900 text-white border border-slate-800"
+                    className="py-2.5 rounded-xl text-center text-xs font-bold bg-slate-100 text-slate-900 border border-slate-200"
                   >
                     Sign In
                   </Link>
