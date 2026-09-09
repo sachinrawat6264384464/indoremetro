@@ -410,40 +410,90 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* Passenger Quick Tools & Transit Hub (Replaces FAQ) */}
       <section className="w-full px-4 sm:px-6 lg:px-10 max-w-[1600px] mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-slate-900">Frequently Asked Questions</h2>
-          <p className="text-slate-500 text-sm mt-2">Got questions about Indore Metro ticketing and schedules?</p>
+        <div className="text-center mb-10 space-y-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-950 text-xs font-black shadow-sm">
+            <Sparkles className="w-4 h-4 text-amber-600" /> Passenger Transit Tools & Services
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Essential Passenger Services</h2>
+          <p className="text-slate-600 text-sm max-w-xl mx-auto font-bold">Everything you need for a smooth & hassle-free commute on Indore Metro</p>
         </div>
 
-        <div className="space-y-4">
-          <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-amber-600" /> How long is a digital QR ticket valid?
-            </h3>
-            <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-              Digital QR tickets remain valid for 180 minutes (3 hours) from booking confirmation, or until scanned at an automatic fare collection exit gate.
-            </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-600">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">GIS Interactive Map</h3>
+              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
+                Explore all 29 Yellow Line stations, elevation specs, and real-time station entrance locations.
+              </p>
+            </div>
+            <Link
+              href="/map"
+              className="inline-flex items-center gap-2 text-xs font-black text-amber-600 hover:text-amber-700 pt-2"
+            >
+              Open System Map <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-amber-600" /> Can I book tickets for multiple passengers?
-            </h3>
-            <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-              Yes, you can select up to 10 passengers in a single booking session. Each passenger name is encoded in the master digital pass.
-            </p>
+          <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-600">
+                <Train className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Fare Calculator</h3>
+              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
+                Calculate distance-based fare slabs, passenger counts, and instant single/return ticket pricing.
+              </p>
+            </div>
+            <Link
+              href="/fare"
+              className="inline-flex items-center gap-2 text-xs font-black text-emerald-600 hover:text-emerald-700 pt-2"
+            >
+              Calculate Fare <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-amber-600" /> What happens if my phone battery dies?
-            </h3>
-            <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-              Every confirmed ticket sends an automated email containing your QR ticket and ticket number. Station customer helpdesks can also assist via your registered phone number.
-            </p>
+          <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-sky-100 border border-sky-300 flex items-center justify-center text-sky-600">
+                <Clock className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Train Timetables</h3>
+              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
+                View first & last train departure times, peak hour train frequencies, and Sunday schedules.
+              </p>
+            </div>
+            <Link
+              href="/timetable"
+              className="inline-flex items-center gap-2 text-xs font-black text-sky-600 hover:text-sky-700 pt-2"
+            >
+              View Timetable <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
+
+          <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-purple-100 border border-purple-300 flex items-center justify-center text-purple-600">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900">Lost & Found Portal</h3>
+              <p className="text-xs text-slate-600 font-semibold leading-relaxed">
+                Report misplaced personal belongings or track items recovered by station security staff.
+              </p>
+            </div>
+            <Link
+              href="/lost-found"
+              className="inline-flex items-center gap-2 text-xs font-black text-purple-600 hover:text-purple-700 pt-2"
+            >
+              Report / Search Item <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
         </div>
       </section>
 
