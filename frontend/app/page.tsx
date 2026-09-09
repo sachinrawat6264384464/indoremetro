@@ -6,13 +6,15 @@ import Image from "next/image";
 import JourneyPlannerWidget from "@/components/metro/journey-planner";
 import { LiveTrainTracker } from "@/components/metro/LiveTrainTracker";
 import { CarbonSavingsBadge } from "@/components/metro/CarbonSavingsBadge";
-import { Train, ShieldCheck, QrCode, Clock, MapPin, AlertTriangle, ArrowRight, HelpCircle, Activity } from "lucide-react";
+import { MapZoomModal } from "@/components/metro/MapZoomModal";
+import { Train, ShieldCheck, QrCode, Clock, MapPin, AlertTriangle, ArrowRight, HelpCircle, Activity, ZoomIn, Maximize2 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { ServiceAlert, Station } from "@/types";
 
 export default function HomePage() {
   const [alerts, setAlerts] = useState<ServiceAlert[]>([]);
   const [stations, setStations] = useState<Station[]>([]);
+  const [isMapZoomOpen, setIsMapZoomOpen] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -36,21 +38,24 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Hero Section with High-Resolution Image Background & Floating Showcase */}
+      {/* Hero Section with High-Resolution Crisp Real Train Image Showcase */}
       <section className="relative pt-6 lg:pt-10 px-4 sm:px-6 lg:px-10 w-full space-y-8">
         
-        {/* Top Hero Showcase Card with Background Real Metro Train Image */}
-        <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-white">
-          <div className="absolute inset-0 z-0 opacity-20 hover:opacity-30 transition duration-700">
+        {/* Top Hero Showcase Card with Sharp Crisp Metro Train Background */}
+        <div className="relative rounded-3xl overflow-hidden border border-slate-300 shadow-xl bg-white">
+          
+          {/* Crisp Train Image on Right Half */}
+          <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 z-0">
             <Image
               src="/image.png"
               alt="Official Indore Metro Yellow Coach"
               fill
-              className="object-cover object-center"
+              className="object-cover object-right shadow-inner"
               priority
             />
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent lg:hidden" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent z-10" />
+          <div className="hidden lg:block absolute inset-y-0 left-0 w-7/12 bg-gradient-to-r from-white via-white to-white/60 z-10" />
 
           <div className="relative z-20 p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-6">
@@ -62,7 +67,7 @@ export default function HomePage() {
                 Move Smarter with <span className="text-amber-500">Indore Metro</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg text-slate-700 leading-relaxed max-w-xl font-medium">
                 Experience high-speed, eco-friendly urban commuting across the Priority Corridor. Book signed Digital QR tickets and check live train frequencies in real time.
               </p>
 
@@ -85,25 +90,25 @@ export default function HomePage() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-200">
                 <div>
                   <span className="text-2xl sm:text-3xl font-black text-slate-900">29</span>
-                  <p className="text-xs text-slate-500 font-semibold">Total Stations</p>
+                  <p className="text-xs text-slate-600 font-bold">Total Stations</p>
                 </div>
                 <div>
                   <span className="text-2xl sm:text-3xl font-black text-emerald-600">16</span>
-                  <p className="text-xs text-slate-500 font-semibold">Active Operational</p>
+                  <p className="text-xs text-slate-600 font-bold">Active Operational</p>
                 </div>
                 <div>
                   <span className="text-2xl sm:text-3xl font-black text-amber-600">31.46 km</span>
-                  <p className="text-xs text-slate-500 font-semibold">Yellow Line Loop</p>
+                  <p className="text-xs text-slate-600 font-bold">Yellow Line Loop</p>
                 </div>
                 <div>
                   <span className="text-2xl sm:text-3xl font-black text-sky-600">7 Mins</span>
-                  <p className="text-xs text-slate-500 font-semibold">Peak Frequency</p>
+                  <p className="text-xs text-slate-600 font-bold">Peak Frequency</p>
                 </div>
               </div>
             </div>
 
             {/* Quick Journey Planner Widget Overlay */}
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-5 relative z-30">
               <JourneyPlannerWidget />
             </div>
           </div>
@@ -130,7 +135,47 @@ export default function HomePage() {
 
       </section>
 
-      {/* Fleet & Digital Ticketing Showcase Section */}
+      {/* Official HD Schematic Yellow Line Map Section (Click to Zoom Lightbox) */}
+      <section className="w-full px-4 sm:px-6 lg:px-10">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <div>
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">Official Route Network</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Indore Metro Yellow Line Official HD Map</h2>
+              <p className="text-slate-600 text-sm mt-1">
+                Schematic alignment showing Phase 1 (Trials on Sep-23), Phase 2 (11 Elevated Stations), and Phase 3 (Underground &amp; Airport Corridor).
+              </p>
+            </div>
+
+            <button
+              onClick={() => setIsMapZoomOpen(true)}
+              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-md shadow-amber-500/20 shrink-0 transition"
+            >
+              <ZoomIn className="w-4 h-4" /> Click to Zoom HD Map
+            </button>
+          </div>
+
+          {/* Interactive Map Preview Card */}
+          <div
+            onClick={() => setIsMapZoomOpen(true)}
+            className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 cursor-pointer group shadow-inner"
+          >
+            <Image
+              src="/images/yellow_line_official_map.png"
+              alt="Official Indore Metro Yellow Line Map"
+              fill
+              className="object-contain p-4 group-hover:scale-105 transition duration-500"
+            />
+            <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
+              <span className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-extrabold text-sm shadow-2xl flex items-center gap-2">
+                <Maximize2 className="w-4 h-4 text-amber-600" /> Open HD Map Lightbox Zoom
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Fleet Showcase Section */}
       <section className="w-full px-4 sm:px-6 lg:px-10">
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-lg">
           
@@ -249,6 +294,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Map Lightbox Zoom Modal Component */}
+      <MapZoomModal isOpen={isMapZoomOpen} onClose={() => setIsMapZoomOpen(false)} />
 
     </div>
   );
