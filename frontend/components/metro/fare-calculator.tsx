@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
+import { StationSelect } from "@/components/ui/station-select";
 
 export function FareCalculator() {
   const [stations, setStations] = useState<Station[]>([]);
@@ -62,50 +63,40 @@ export function FareCalculator() {
   };
 
   return (
-    <Card className="max-w-xl mx-auto">
+    <Card className="max-w-xl mx-auto border border-slate-200 shadow-xl bg-white rounded-3xl p-6">
       <CardHeader>
-        <CardTitle className="text-center text-amber-400">
+        <CardTitle className="text-center text-slate-900 font-black text-2xl">
           Metro Fare Estimator
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleCalculate} className="space-y-4">
+        <form onSubmit={handleCalculate} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
+            <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
               Source Station
             </label>
-            <select
+            <StationSelect
+              stations={stations}
               value={sourceId}
-              onChange={(e) => setSourceId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-sm focus:border-amber-500 focus:outline-none"
-            >
-              {stations.map((st) => (
-                <option key={st.id} value={st.id}>
-                  {st.name} ({st.code})
-                </option>
-              ))}
-            </select>
+              onChange={setSourceId}
+              iconColor="text-emerald-600"
+            />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
+            <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
               Destination Station
             </label>
-            <select
+            <StationSelect
+              stations={stations}
               value={destId}
-              onChange={(e) => setDestId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-sm focus:border-amber-500 focus:outline-none"
-            >
-              {stations.map((st) => (
-                <option key={st.id} value={st.id}>
-                  {st.name} ({st.code})
-                </option>
-              ))}
-            </select>
+              onChange={setDestId}
+              iconColor="text-rose-600"
+            />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">
+            <label className="block text-xs font-black text-slate-700 uppercase tracking-wider mb-1.5">
               Number of Passengers
             </label>
             <input
@@ -114,24 +105,24 @@ export function FareCalculator() {
               max={10}
               value={passengerCount}
               onChange={(e) => setPassengerCount(parseInt(e.target.value) || 1)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-sm focus:border-amber-500 focus:outline-none"
+              className="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-slate-900 text-sm font-extrabold focus:border-amber-500 focus:outline-none shadow-sm"
             />
           </div>
 
-          {error && <p className="text-xs text-red-400 text-center font-medium">{error}</p>}
+          {error && <p className="text-xs text-rose-600 text-center font-bold">{error}</p>}
 
-          <Button type="submit" isLoading={loading} className="w-full">
+          <Button type="submit" isLoading={loading} className="w-full h-12 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-2xl">
             Calculate Fare
           </Button>
         </form>
 
         {fareResult && (
-          <div className="mt-6 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-center space-y-2">
-            <h4 className="text-sm font-semibold text-slate-300">Estimated Fare</h4>
-            <div className="text-3xl font-extrabold text-amber-400">
+          <div className="mt-6 p-5 rounded-2xl bg-amber-50 border border-amber-300 text-center space-y-1">
+            <h4 className="text-xs font-black text-amber-900 uppercase tracking-wider">Estimated Total Fare</h4>
+            <div className="text-3xl font-black text-amber-600">
               {formatCurrency(fareResult.total_fare)}
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs font-bold text-slate-600">
               {fareResult.stop_count} stops • {formatCurrency(fareResult.base_fare_per_passenger)} / passenger
             </p>
           </div>

@@ -6,6 +6,8 @@ import { Navigation, ArrowRightLeft, Clock, MapPin, Ticket, ChevronUp, ChevronDo
 import { formatCurrency } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
+import { StationSelect } from "@/components/ui/station-select";
+
 interface JourneyDrawerProps {
   stations: Station[];
   sourceId: string;
@@ -59,17 +61,13 @@ export function JourneyDrawer({
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
                 From Station
               </label>
-              <select
+              <StationSelect
+                stations={stations}
                 value={sourceId}
-                onChange={(e) => onSourceChange(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-amber-500"
-              >
-                {stations.map((st) => (
-                  <option key={st.id} value={st.id}>
-                    {st.name} ({st.code})
-                  </option>
-                ))}
-              </select>
+                onChange={onSourceChange}
+                iconColor="text-emerald-400"
+                placeholder="Select Origin"
+              />
             </div>
 
             <div className="sm:col-span-1 flex items-center justify-center pt-3 sm:pt-0">
@@ -86,17 +84,13 @@ export function JourneyDrawer({
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
                 To Station
               </label>
-              <select
+              <StationSelect
+                stations={stations}
                 value={destId}
-                onChange={(e) => onDestChange(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-amber-500"
-              >
-                {stations.map((st) => (
-                  <option key={st.id} value={st.id}>
-                    {st.name} ({st.code})
-                  </option>
-                ))}
-              </select>
+                onChange={onDestChange}
+                iconColor="text-rose-400"
+                placeholder="Select Destination"
+              />
             </div>
 
             <div className="sm:col-span-2 pt-2 sm:pt-3">

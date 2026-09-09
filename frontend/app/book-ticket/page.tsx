@@ -8,6 +8,8 @@ import { isAuthenticated, getStoredUser } from "@/lib/auth";
 import { Station, FareCalculation } from "@/types";
 import { toast } from "sonner";
 
+import { StationSelect } from "@/components/ui/station-select";
+
 function BookTicketForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -145,28 +147,24 @@ function BookTicketForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-bold text-slate-900 uppercase block mb-1.5">Source Station</label>
-                  <select
+                  <StationSelect
+                    stations={stations}
                     value={sourceId}
-                    onChange={(e) => setSourceId(e.target.value)}
-                    className="w-full h-12 px-4 rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 text-sm font-semibold shadow-sm"
-                  >
-                    {stations.map((st) => (
-                      <option key={st.id} value={st.id}>{st.name} ({st.code})</option>
-                    ))}
-                  </select>
+                    onChange={setSourceId}
+                    iconColor="text-emerald-600"
+                    placeholder="Select Origin Station"
+                  />
                 </div>
 
                 <div>
                   <label className="text-xs font-bold text-slate-900 uppercase block mb-1.5">Destination Station</label>
-                  <select
+                  <StationSelect
+                    stations={stations}
                     value={destId}
-                    onChange={(e) => setDestId(e.target.value)}
-                    className="w-full h-12 px-4 rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 text-sm font-semibold shadow-sm"
-                  >
-                    {stations.map((st) => (
-                      <option key={st.id} value={st.id}>{st.name} ({st.code})</option>
-                    ))}
-                  </select>
+                    onChange={setDestId}
+                    iconColor="text-rose-600"
+                    placeholder="Select Destination Station"
+                  />
                 </div>
               </div>
 

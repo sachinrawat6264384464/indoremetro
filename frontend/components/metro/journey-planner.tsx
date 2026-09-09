@@ -6,6 +6,7 @@ import { Navigation, ArrowRightLeft, Sparkles, Clock, Ticket, CheckCircle2, MapP
 import { apiFetch } from "@/lib/api";
 import { Station, JourneyPlan } from "@/types";
 import { FALLBACK_STATIONS } from "@/lib/data/fallback-stations";
+import { StationSelect } from "@/components/ui/station-select";
 
 export default function JourneyPlannerWidget() {
   const router = useRouter();
@@ -133,20 +134,13 @@ export default function JourneyPlannerWidget() {
             <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-emerald-600" /> Origin Station
             </label>
-            <div className="relative">
-              <select
-                value={sourceId}
-                onChange={(e) => setSourceId(e.target.value)}
-                className="w-full h-12 pl-4 pr-10 rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 text-sm font-extrabold shadow-sm transition appearance-none cursor-pointer"
-              >
-                {stations.map((st) => (
-                  <option key={st.id} value={st.id}>
-                    {st.name} ({st.code})
-                  </option>
-                ))}
-              </select>
-              <div className="absolute right-3.5 top-3.5 pointer-events-none text-slate-400 text-xs">▼</div>
-            </div>
+            <StationSelect
+              stations={stations}
+              value={sourceId}
+              onChange={setSourceId}
+              iconColor="text-emerald-600"
+              placeholder="Select Origin Station"
+            />
           </div>
 
           {/* Swap Button */}
@@ -166,20 +160,13 @@ export default function JourneyPlannerWidget() {
             <label className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-rose-600" /> Destination Station
             </label>
-            <div className="relative">
-              <select
-                value={destId}
-                onChange={(e) => setDestId(e.target.value)}
-                className="w-full h-12 pl-4 pr-10 rounded-xl bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 text-sm font-extrabold shadow-sm transition appearance-none cursor-pointer"
-              >
-                {stations.map((st) => (
-                  <option key={st.id} value={st.id}>
-                    {st.name} ({st.code})
-                  </option>
-                ))}
-              </select>
-              <div className="absolute right-3.5 top-3.5 pointer-events-none text-slate-400 text-xs">▼</div>
-            </div>
+            <StationSelect
+              stations={stations}
+              value={destId}
+              onChange={setDestId}
+              iconColor="text-rose-600"
+              placeholder="Select Destination Station"
+            />
           </div>
 
         </div>
