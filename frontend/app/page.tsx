@@ -213,27 +213,27 @@ export default function HomePage() {
           {/* Dynamic 2-Column Map Content */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Map Image Viewer Card */}
+            {/* Map Image Viewer Card with Clean White Background */}
             <div
               onClick={() => setIsMapZoomOpen(true)}
-              className="lg:col-span-8 relative min-h-[360px] sm:min-h-[420px] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 cursor-pointer group shadow-inner transition-all duration-300"
+              className="lg:col-span-8 relative min-h-[380px] sm:min-h-[440px] w-full rounded-2xl overflow-hidden border border-slate-200 bg-white cursor-pointer group shadow-sm hover:shadow-md transition-all duration-300"
             >
               <Image
-                src={activeMapView === 'ALIGNMENT' ? '/images/indore_metro_alignment_official.png' : '/images/yellow_line_official_map.png'}
-                alt={activeMapView === 'ALIGNMENT' ? 'Indore Metro Alignment Diagram' : 'Indore Metro Yellow Line Loop Map'}
+                src={activeMapView === 'ALIGNMENT' ? '/images/indore_metro_loop_diagram.png' : '/images/yellow_line_official_map.png'}
+                alt={activeMapView === 'ALIGNMENT' ? 'Indore Metro Yellow Line Loop Diagram' : 'Indore Metro Yellow Line GIS Map'}
                 fill
-                className="object-contain p-2 group-hover:scale-[1.02] transition duration-500"
+                className="object-contain p-4 group-hover:scale-[1.02] transition duration-500"
               />
-              <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
-                <span className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-extrabold text-sm shadow-2xl flex items-center gap-2">
-                  <Maximize2 className="w-4 h-4 text-amber-600" /> Click to Open HD Lightbox Zoom
+              <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
+                <span className="px-6 py-3 rounded-2xl bg-slate-900 text-white font-extrabold text-sm shadow-2xl flex items-center gap-2">
+                  <Maximize2 className="w-4 h-4 text-amber-400" /> Click to Open HD Lightbox Zoom
                 </span>
               </div>
 
               {/* View Badge Overlay */}
-              <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-xl bg-slate-900/80 backdrop-blur-md border border-slate-700 text-white text-xs font-bold flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-                <span>Showing: {activeMapView === 'ALIGNMENT' ? 'Official Project Alignment Breakdown' : 'Indore Yellow Line City Loop GIS View'}</span>
+              <div className="absolute bottom-3 left-3 px-3.5 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-300 text-slate-900 text-xs font-bold shadow-md flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Showing: {activeMapView === 'ALIGNMENT' ? 'Official Yellow Line Loop Schematic Diagram' : 'Indore Yellow Line City Loop GIS View'}</span>
               </div>
             </div>
 
@@ -462,7 +462,7 @@ export default function HomePage() {
       <MapZoomModal 
         isOpen={isMapZoomOpen} 
         onClose={() => setIsMapZoomOpen(false)} 
-        imageSrc={activeMapView === 'ALIGNMENT' ? '/images/indore_metro_alignment_official.png' : '/images/yellow_line_official_map.png'}
+        imageSrc={activeMapView === 'ALIGNMENT' ? '/images/indore_metro_loop_diagram.png' : '/images/yellow_line_official_map.png'}
       />
 
     </div>

@@ -10,7 +10,7 @@ interface MapZoomModalProps {
   imageSrc?: string;
 }
 
-export function MapZoomModal({ isOpen, onClose, imageSrc = "/images/indore_metro_alignment_official.png" }: MapZoomModalProps) {
+export function MapZoomModal({ isOpen, onClose, imageSrc = "/images/indore_metro_loop_diagram.png" }: MapZoomModalProps) {
   const [zoomLevel, setZoomLevel] = useState(1);
 
   if (!isOpen) return null;
