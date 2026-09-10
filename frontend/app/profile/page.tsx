@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { getStoredUser, isAuthenticated, clearAuthSession, saveAuthSession } from "@/lib/auth";
 import { apiFetch } from "@/lib/api";
-import { User, TicketBooking, Station } from "@/types";
+import { User, Ticket, Station } from "@/types";
 import { toast } from "sonner";
 import { ProfileCardWidget } from "@/components/metro/profile-card-widget";
 import { StationSelect } from "@/components/ui/station-select";
@@ -50,9 +50,9 @@ export default function ProfilePage() {
 
   // Stations & Tickets State
   const [stations, setStations] = useState<Station[]>([]);
-  const [tickets, setTickets] = useState<TicketBooking[]>([]);
+  const [tickets, setTickets] = useState<any[]>([]);
   const [loadingTickets, setLoadingTickets] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState<TicketBooking | null>(null);
+  const [selectedTicket, setSelectedTicket] = useState<any | null>(null);
 
   // Security Form State
   const [currentPass, setCurrentPass] = useState("");
