@@ -9,7 +9,7 @@ import {
   Phone,
   ShieldCheck,
   CreditCard,
-  Ticket,
+  Ticket as TicketIcon,
   Sparkles,
   Award,
   Leaf,
@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { getStoredUser, isAuthenticated, clearAuthSession, saveAuthSession } from "@/lib/auth";
 import { apiFetch } from "@/lib/api";
-import { User, Ticket, Station } from "@/types";
+import { User, Ticket as TicketType, Station } from "@/types";
 import { toast } from "sonner";
 import { ProfileCardWidget } from "@/components/metro/profile-card-widget";
 import { StationSelect } from "@/components/ui/station-select";
@@ -86,7 +86,7 @@ export default function ProfilePage() {
     // Load recent user tickets
     async function loadTickets() {
       setLoadingTickets(true);
-      const res = await apiFetch<TicketBooking[]>("/tickets/my-tickets");
+      const res = await apiFetch<TicketType[]>("/tickets/my-tickets");
       setLoadingTickets(false);
       if (res.success && res.data) {
         setTickets(res.data);
@@ -220,7 +220,7 @@ export default function ProfilePage() {
                   href="/book-ticket"
                   className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black flex items-center gap-2 shadow-md shadow-amber-500/20 transition transform hover:-translate-y-0.5"
                 >
-                  <Ticket className="w-4 h-4 stroke-[2.5]" />
+                  <TicketIcon className="w-4 h-4 stroke-[2.5]" />
                   <span>Book Ticket &rarr;</span>
                 </Link>
 
@@ -242,7 +242,7 @@ export default function ProfilePage() {
           
           <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-md space-y-2 relative overflow-hidden group hover:border-amber-400 transition">
             <div className="w-10 h-10 rounded-2xl bg-amber-100 border border-amber-300 text-amber-700 flex items-center justify-center font-black">
-              <Ticket className="w-5 h-5" />
+              <TicketIcon className="w-5 h-5" />
             </div>
             <div>
               <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block">
@@ -337,7 +337,7 @@ export default function ProfilePage() {
                   : "text-slate-600 hover:text-slate-950 hover:bg-slate-100"
               }`}
             >
-              <Ticket className="w-4 h-4" />
+              <TicketIcon className="w-4 h-4" />
               <span>Recent Ticket Activity</span>
               {tickets.length > 0 && (
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-slate-900 text-amber-400">
@@ -513,7 +513,7 @@ export default function ProfilePage() {
                           href="/book-ticket"
                           className="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center gap-2 transition"
                         >
-                          <Ticket className="w-4 h-4" /> Book Quick Commute Pass &rarr;
+                          <TicketIcon className="w-4 h-4" /> Book Quick Commute Pass &rarr;
                         </Link>
                       </div>
 
@@ -624,7 +624,7 @@ export default function ProfilePage() {
               <div className="space-y-6 animate-in fade-in duration-300">
                 <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-                    <Ticket className="w-4.5 h-4.5 text-amber-600" /> Digital QR Ticket Activity Stream
+                    <TicketIcon className="w-4.5 h-4.5 text-amber-600" /> Digital QR Ticket Activity Stream
                   </h3>
                   <Link href="/my-tickets" className="text-xs font-extrabold text-amber-600 hover:underline flex items-center gap-1">
                     View All Tickets <ChevronRight className="w-3.5 h-3.5" />
@@ -682,7 +682,7 @@ export default function ProfilePage() {
                   </div>
                 ) : (
                   <div className="text-center py-12 bg-slate-50 rounded-3xl border border-slate-200 space-y-3">
-                    <Ticket className="w-10 h-10 text-slate-400 mx-auto" />
+                    <TicketIcon className="w-10 h-10 text-slate-400 mx-auto" />
                     <h4 className="text-sm font-black text-slate-900">No Tickets Booked Yet</h4>
                     <p className="text-xs text-slate-500 font-medium max-w-sm mx-auto">
                       You haven&apos;t booked any QR tickets recently. Book your first metro digital pass now!
@@ -691,7 +691,7 @@ export default function ProfilePage() {
                       href="/book-ticket"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md shadow-amber-500/20"
                     >
-                      <Ticket className="w-4 h-4" /> Book First QR Ticket
+                      <TicketIcon className="w-4 h-4" /> Book First QR Ticket
                     </Link>
                   </div>
                 )}
