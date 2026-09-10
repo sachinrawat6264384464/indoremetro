@@ -2,29 +2,68 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Ticket, Users, Calendar, Plus, Trash2, ShieldCheck, ArrowRight } from "lucide-react";
+import { Ticket, Users, Plus, Trash2, ShieldCheck } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { isAuthenticated, getStoredUser } from "@/lib/auth";
 import { Station, FareCalculation } from "@/types";
 import { toast } from "sonner";
-
 import { StationSelect } from "@/components/ui/station-select";
+import { saveFormCache, getFormCache, clearFormCache, CACHE_KEYS } from "@/lib/form-cache";
+
+interface BookTicketCacheData {
+  sourceId?: string;
+  destId?: string;
+  journeyDate?: string;
+  passengers?: Array<{ passenger_name: string; passenger_type: string }>;
+}
 
 function BookTicketForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [stations, setStations] = useState<Station[]>([]);
-  const [sourceId, setSourceId] = useState(searchParams.get("source") || "");
-  const [destId, setDestId] = useState(searchParams.get("dest") || "");
-  const [journeyDate, setJourneyDate] = useState(new Date().toISOString().split("T")[0]);
-  const [passengers, setPassengers] = useState([{ passenger_name: "", passenger_type: "ADULT" }]);
+  
+  // Initial cached values if present
+  const initialCache = getFormCache<BookTicketCacheData>(CACHE_KEYS.BOOK_TICKET);
+  
+  const [sourceId, setSourceId] = useState(
+    searchParams.get("source") || initialCache?.sourceId || ""
+  );
+  const [destId, setDestId] = useState(
+    searchParams.get("dest") || initialCache?.destId || ""
+  );
+  const [journeyDate, setJourneyDate] = useState(
+    initialCache?.journeyDate || new Date().toISOString().split("T")[0]
+  );
+  const [passengers, setPassengers] = useState<Array<{ passenger_name: string; passenger_type: string }>>(
+    initialCache?.passengers && initialCache.passengers.length > 0
+      ? initialCache.passengers
+      : [{ passenger_name: "", passenger_type: "ADULT" }]
+  );
+  
   const [farePreview, setFarePreview] = useState<FareCalculation | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // Auto-save form inputs to localStorage as user edits
+  useEffect(() => {
+    saveFormCache(CACHE_KEYS.BOOK_TICKET, {
+      sourceId,
+      destId,
+      journeyDate,
+      passengers,
+    });
+  }, [sourceId, destId, journeyDate, passengers]);
+
   useEffect(() => {
     if (!isAuthenticated()) {
-      toast.error("Please sign in to book tickets");
-      router.push("/login");
+      // Cache current form choices and redirect with return url
+      saveFormCache(CACHE_KEYS.BOOK_TICKET, {
+        sourceId,
+        destId,
+        journeyDate,
+        passengers,
+      });
+      toast.error("Please sign in to complete your ticket booking");
+      router.push("/login?redirect=/book-ticket");
       return;
     }
 
@@ -111,6 +150,9 @@ function BookTicketForm() {
       toast.error(ticketRes.error?.message || "Failed to create ticket booking");
       return;
     }
+
+    // Clear form cache upon successful booking
+    clearFormCache(CACHE_KEYS.BOOK_TICKET);
 
     const ticketId = ticketRes.data.ticket_id;
 

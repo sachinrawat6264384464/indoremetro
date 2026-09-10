@@ -2,11 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation, ArrowRightLeft, Sparkles, Clock, Ticket, CheckCircle2, MapPin, Leaf, Shield, AlertCircle } from "lucide-react";
+import { Navigation, ArrowRightLeft, Sparkles, Ticket, MapPin, Leaf, AlertCircle } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { Station, JourneyPlan } from "@/types";
 import { FALLBACK_STATIONS } from "@/lib/data/fallback-stations";
 import { StationSelect } from "@/components/ui/station-select";
+import { saveFormCache, getFormCache, CACHE_KEYS } from "@/lib/form-cache";
+
+interface JourneyPlannerCacheData {
+  sourceId?: string;
+  destId?: string;
+}
 
 export default function JourneyPlannerWidget() {
   const router = useRouter();
@@ -22,13 +28,25 @@ export default function JourneyPlannerWidget() {
       const res = await apiFetch<Station[]>("/stations");
       const active = (res.success && res.data && res.data.length > 0) ? res.data : FALLBACK_STATIONS;
       setStations(active);
-      if (active.length >= 2) {
+      
+      const cached = getFormCache<JourneyPlannerCacheData>(CACHE_KEYS.JOURNEY_PLANNER);
+      if (cached?.sourceId && cached?.destId) {
+        setSourceId(cached.sourceId);
+        setDestId(cached.destId);
+      } else if (active.length >= 2) {
         setSourceId(active[0].id);
         setDestId(active[active.length - 1]?.id || active[1].id);
       }
     }
     loadStations();
   }, []);
+
+  // Save station selections to cache
+  useEffect(() => {
+    if (sourceId && destId) {
+      saveFormCache(CACHE_KEYS.JOURNEY_PLANNER, { sourceId, destId });
+    }
+  }, [sourceId, destId]);
 
   const handleSwap = () => {
     const temp = sourceId;
@@ -91,7 +109,7 @@ export default function JourneyPlannerWidget() {
           </div>
           <div>
             <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">Plan Your Metro Journey</h3>
-            <p className="text-[11px] text-slate-500 font-semibold mt-0.5">Real-time route calculation & fare matrix</p>
+            <p className="text-[11px] text-slate-500 font-semibold mt-0.5">Real-time route calculation &amp; fare matrix</p>
           </div>
         </div>
         <span className="px-3 py-1 rounded-full text-[11px] font-black bg-emerald-50 text-emerald-800 border border-emerald-300 flex items-center gap-1 shadow-sm shrink-0">
@@ -107,21 +125,21 @@ export default function JourneyPlannerWidget() {
           onClick={() => handleQuickSelect(0, 12)}
           className="px-2.5 py-0.5 rounded-full bg-slate-50 hover:bg-amber-50 border border-slate-200 text-slate-700 text-[11px] font-extrabold shadow-sm transition hover:border-amber-400"
         >
-          Gandhi Nagar ➔ Vijay Nagar
+          Gandhi Nagar &#x2794; Vijay Nagar
         </button>
         <button
           type="button"
           onClick={() => handleQuickSelect(1, 14)}
           className="px-2.5 py-0.5 rounded-full bg-slate-50 hover:bg-amber-50 border border-slate-200 text-slate-700 text-[11px] font-extrabold shadow-sm transition hover:border-amber-400"
         >
-          Super Corridor ➔ Palasia
+          Super Corridor &#x2794; Palasia
         </button>
         <button
           type="button"
           onClick={() => handleQuickSelect(3, 16)}
           className="px-2.5 py-0.5 rounded-full bg-slate-50 hover:bg-amber-50 border border-slate-200 text-slate-700 text-[11px] font-extrabold shadow-sm transition hover:border-amber-400"
         >
-          Bhavarkuan ➔ Airport
+          Bhavarkuan &#x2794; Airport
         </button>
       </div>
 
@@ -255,7 +273,7 @@ export default function JourneyPlannerWidget() {
 
             <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 shadow-sm space-y-1">
               <span className="text-xs text-amber-900 font-black uppercase tracking-wider block">Standard Fare</span>
-              <span className="text-3xl font-black text-amber-600">₹{planResult.fare_amount}</span>
+              <span className="text-3xl font-black text-amber-600">&#x20B9;{planResult.fare_amount}</span>
             </div>
 
           </div>

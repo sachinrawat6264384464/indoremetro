@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { UserPlus, User, Mail, Lock, Phone } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { toast } from "sonner";
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -28,11 +31,18 @@ export default function SignupPage() {
 
     if (res.success) {
       toast.success("Account created successfully! Please sign in.");
-      router.push("/login");
+      const loginUrl = redirectUrl
+        ? `/login?redirect=${encodeURIComponent(redirectUrl)}`
+        : "/login";
+      router.push(loginUrl);
     } else {
       toast.error(res.error?.message || "Registration failed");
     }
   };
+
+  const loginLink = redirectUrl
+    ? `/login?redirect=${encodeURIComponent(redirectUrl)}`
+    : "/login";
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4 py-16">
@@ -111,17 +121,25 @@ export default function SignupPage() {
             disabled={loading}
             className="w-full h-12 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-md shadow-amber-500/20 transition disabled:opacity-50 mt-2"
           >
-            {loading ? "Creating..." : "Create Account &rarr;"}
+            {loading ? "Creating..." : "Create Account \u2192"}
           </button>
         </form>
 
         <div className="text-center text-xs text-slate-600 pt-4 border-t border-slate-100 font-medium">
           Already registered?{" "}
-          <Link href="/login" className="text-amber-600 font-extrabold hover:underline">
+          <Link href={loginLink} className="text-amber-600 font-extrabold hover:underline">
             Sign In
           </Link>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-20 text-slate-500 font-medium">Loading Sign Up...</div>}>
+      <SignupForm />
+    </Suspense>
   );
 }

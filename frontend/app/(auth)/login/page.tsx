@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Train, LogIn, Lock, Mail } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Train, Lock, Mail } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { saveAuthSession } from "@/lib/auth";
 import { toast } from "sonner";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,7 +31,10 @@ export default function LoginPage() {
     if (res.success && res.data) {
       saveAuthSession(res.data.access_token, res.data.user);
       toast.success("Welcome back! Signed in successfully.");
-      if (res.data.user.roles.includes("SUPER_ADMIN") || res.data.user.roles.includes("ADMIN")) {
+      
+      if (redirectUrl) {
+        router.push(redirectUrl);
+      } else if (res.data.user.roles.includes("SUPER_ADMIN") || res.data.user.roles.includes("ADMIN")) {
         router.push("/admin");
       } else {
         router.push("/my-tickets");
@@ -37,6 +43,10 @@ export default function LoginPage() {
       toast.error(res.error?.message || "Invalid credentials");
     }
   };
+
+  const signupLink = redirectUrl
+    ? `/signup?redirect=${encodeURIComponent(redirectUrl)}`
+    : "/signup";
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4 py-16">
@@ -85,14 +95,14 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full h-12 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-md shadow-amber-500/20 transition disabled:opacity-50 mt-2"
           >
-            {loading ? "Authenticating..." : "Sign In &rarr;"}
+            {loading ? "Authenticating..." : "Sign In \u2192"}
           </button>
         </form>
 
         <div className="text-center text-xs text-slate-600 space-y-2 pt-4 border-t border-slate-100 font-medium">
           <p>
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-amber-600 font-extrabold hover:underline">
+            <Link href={signupLink} className="text-amber-600 font-extrabold hover:underline">
               Create Account
             </Link>
           </p>
@@ -104,5 +114,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-20 text-slate-500 font-medium">Loading Sign In...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

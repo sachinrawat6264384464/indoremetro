@@ -1,14 +1,26 @@
 "use client";
 
-import { useState } from "react";
-import { CreditCard, Zap, ShieldCheck, CheckCircle2, Ticket } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CreditCard, Zap, CheckCircle2, Ticket } from "lucide-react";
 import { toast } from "sonner";
+import { saveFormCache, getFormCache, clearFormCache, CACHE_KEYS } from "@/lib/form-cache";
+
+interface RechargeCacheData {
+  cardNumber?: string;
+  amount?: number;
+}
 
 export default function RechargePage() {
-  const [cardNumber, setCardNumber] = useState("");
-  const [amount, setAmount] = useState(200);
+  const cached = getFormCache<RechargeCacheData>(CACHE_KEYS.RECHARGE);
+
+  const [cardNumber, setCardNumber] = useState(cached?.cardNumber || "");
+  const [amount, setAmount] = useState(cached?.amount || 200);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    saveFormCache(CACHE_KEYS.RECHARGE, { cardNumber, amount });
+  }, [cardNumber, amount]);
 
   const handleRecharge = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +32,7 @@ export default function RechargePage() {
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
+      clearFormCache(CACHE_KEYS.RECHARGE);
       toast.success(`Smart Card ${cardNumber} successfully recharged with ₹${amount}!`);
     }, 1200);
   };
@@ -127,4 +140,3 @@ export default function RechargePage() {
     </div>
   );
 }
-

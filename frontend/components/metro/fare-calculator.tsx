@@ -7,12 +7,21 @@ import { Button } from "@/components/ui/button";
 import { apiFetch } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
 import { StationSelect } from "@/components/ui/station-select";
+import { saveFormCache, getFormCache, CACHE_KEYS } from "@/lib/form-cache";
+
+interface FareCalculatorCacheData {
+  sourceId?: string;
+  destId?: string;
+  passengerCount?: number;
+}
 
 export function FareCalculator() {
   const [stations, setStations] = useState<Station[]>([]);
-  const [sourceId, setSourceId] = useState("");
-  const [destId, setDestId] = useState("");
-  const [passengerCount, setPassengerCount] = useState(1);
+  const cached = getFormCache<FareCalculatorCacheData>(CACHE_KEYS.FARE_CALCULATOR);
+
+  const [sourceId, setSourceId] = useState(cached?.sourceId || "");
+  const [destId, setDestId] = useState(cached?.destId || "");
+  const [passengerCount, setPassengerCount] = useState(cached?.passengerCount || 1);
   const [fareResult, setFareResult] = useState<FareCalculation | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,14 +31,27 @@ export function FareCalculator() {
       const res = await apiFetch<Station[]>("/stations");
       if (res.success && res.data && res.data.length > 0) {
         setStations(res.data);
-        const first = res.data[0].id;
-        const last = res.data[res.data.length - 1].id;
-        setSourceId(first);
-        setDestId(first !== last ? last : (res.data[1]?.id || first));
+        if (!sourceId || !destId) {
+          const first = res.data[0].id;
+          const last = res.data[res.data.length - 1].id;
+          if (!sourceId) setSourceId(first);
+          if (!destId) setDestId(first !== last ? last : (res.data[1]?.id || first));
+        }
       }
     }
     loadStations();
   }, []);
+
+  // Save to cache as inputs change
+  useEffect(() => {
+    if (sourceId || destId || passengerCount) {
+      saveFormCache(CACHE_KEYS.FARE_CALCULATOR, {
+        sourceId,
+        destId,
+        passengerCount,
+      });
+    }
+  }, [sourceId, destId, passengerCount]);
 
   const handleCalculate = async (e: React.FormEvent) => {
     e.preventDefault();
