@@ -12,6 +12,7 @@ from app.api.v1.alerts import router as alerts_router
 from app.api.v1.admin import router as admin_router
 from app.api.v1.places import router as places_router
 from app.api.v1.metro import router as metro_router
+from app.api.v1.recharge import router as recharge_router
 
 api_v1_router = APIRouter(prefix="/api/v1")
 
@@ -23,6 +24,7 @@ api_v1_router.include_router(fares_router)
 api_v1_router.include_router(timetables_router)
 api_v1_router.include_router(tickets_router)
 api_v1_router.include_router(payments_router)
+api_v1_router.include_router(recharge_router)
 api_v1_router.include_router(qr_router)
 api_v1_router.include_router(alerts_router)
 api_v1_router.include_router(admin_router)

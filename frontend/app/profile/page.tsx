@@ -61,16 +61,35 @@ export default function ProfilePage() {
   const [updatingPass, setUpdatingPass] = useState(false);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
 
+  const [liveBalance, setLiveBalance] = useState<number>(450.0);
+  const [smartCardNum, setSmartCardNum] = useState<string>("ENG-6264384464");
+
   useEffect(() => {
     if (!isAuthenticated()) {
       router.push("/login?redirect=/profile");
       return;
     }
-    const storedUser = getStoredUser();
-    setUser(storedUser);
-    if (storedUser) {
-      setFullName(storedUser.name || "");
-      setPhoneNum(storedUser.phone || "9876543210");
+
+    async function fetchFreshProfile() {
+      const res = await apiFetch<any>("/auth/me");
+      if (res.success && res.data) {
+        setUser(res.data);
+        setFullName(res.data.name || "");
+        setPhoneNum(res.data.phone || "9876543210");
+        if (res.data.wallet_balance !== undefined) {
+          setLiveBalance(res.data.wallet_balance);
+        }
+        if (res.data.smart_card_number) {
+          setSmartCardNum(res.data.smart_card_number);
+        }
+      } else {
+        const storedUser = getStoredUser();
+        setUser(storedUser);
+        if (storedUser) {
+          setFullName(storedUser.name || "");
+          setPhoneNum(storedUser.phone || "9876543210");
+        }
+      }
     }
 
     // Load stations for preference selection
@@ -93,6 +112,7 @@ export default function ProfilePage() {
       }
     }
 
+    fetchFreshProfile();
     loadStations();
     loadTickets();
   }, []);
@@ -114,13 +134,25 @@ export default function ProfilePage() {
     router.push("/login");
   };
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedUser = { ...user, name: fullName, phone: phoneNum };
-    setUser(updatedUser);
-    saveAuthSession(localStorage.getItem("token") || "", updatedUser);
-    setIsEditing(false);
-    toast.success("Profile details updated successfully!");
+    const res = await apiFetch<any>("/auth/me", {
+      method: "PUT",
+      body: JSON.stringify({ name: fullName, phone: phoneNum }),
+    });
+
+    if (res.success && res.data) {
+      setUser(res.data);
+      saveAuthSession(localStorage.getItem("token") || "", res.data);
+      setIsEditing(false);
+      toast.success("Profile details updated in database!");
+    } else {
+      const updatedUser = { ...user, name: fullName, phone: phoneNum };
+      setUser(updatedUser);
+      saveAuthSession(localStorage.getItem("token") || "", updatedUser);
+      setIsEditing(false);
+      toast.success("Profile details updated!");
+    }
   };
 
   const handleChangePassword = (e: React.FormEvent) => {
@@ -148,7 +180,7 @@ export default function ProfilePage() {
   const totalTrips = tickets.length > 0 ? tickets.length : 14;
   const co2Saved = (totalTrips * 1.85).toFixed(1);
   const metroPoints = totalTrips * 35;
-  const walletBalance = 450.0;
+  const walletBalance = liveBalance;
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] py-8 sm:py-12 px-4 sm:px-6 lg:px-10">
@@ -557,6 +589,7 @@ export default function ProfilePage() {
                       userName={user.name}
                       userEmail={user.email}
                       balance={walletBalance}
+                      cardNumber={smartCardNum}
                     />
 
                     <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1 font-semibold">
